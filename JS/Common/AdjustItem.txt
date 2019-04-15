@@ -1,0 +1,16 @@
+<script type="text/javascript">
+function AdjustNewItem() { 
+$("#contentBox").prepend($("td.ms-addnew"));
+$("td.ms-addnew")[0].childNodes[0].style.height='16px';
+$("td.ms-addnew")[0].childNodes[0].style.width='16px';
+$("td.ms-addnew")[0].childNodes[0].childNodes[0].src='/_layouts/15/images/spcommon.png?rev=23';
+$("td.ms-addnew")[0].childNodes[0].childNodes[0].className='ms-list-addnew-img16';
+$("td.ms-addnew")[0].childNodes[0].childNodes[0].removeAttribute("style"); 
+$("td.ms-addnew")[0].childNodes[0].style.verticalAlign='bottom';
+$("td.ms-addnew")[0].childNodes[2] .style.color='#0072c6';
+$("td.ms-addnew")[0].childNodes[2] .text=" new item";
+$("#idHomePageNewItem").prepend($("td.ms-addnew")[0].childNodes[0]);
+
+}
+_spBodyOnLoadFunctionNames.push("AdjustNewItem");
+</script>

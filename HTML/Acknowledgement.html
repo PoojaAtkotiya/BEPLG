@@ -1,0 +1,173 @@
+<html dir="ltr" class="ms-dialog ms-dialog-nr" lang="en-US">
+
+<head>
+
+
+
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
+    />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
+    />
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/GenerateDocument.js"></script>
+
+    <script type="text/javascript">
+        //function ClosePopup(value) {
+        //    window.frameElement.commitPopup(value)
+        //}
+        //function StartProgressBar(isclose) {
+
+        //    var waitDialog = SP.UI.ModalDialog.showWaitScreenWithNoClose("Retrieving Information", "Please wait while the information is being gathered. This may take some time.", 80, 300);
+        //    if (isclose) {
+        //        waitDialog.close();
+        //    }
+        //}
+        $(document).ready(function () {
+            //Please Wait Script.
+            ExecuteOrDelayUntilScriptLoaded(ShowWaitDialog(), 'sp.ui.dialog.js');
+
+            //Get List of Property letters row details from Generat Document Page
+            var letters = window.parent.G_LETTERS;
+
+            if (!IsNullOrUndefined(letters) && letters.length > 0) {
+                //check in DMS letter is already generated or not
+                //letters = PropertyLetterIsExists(letters);
+            }
+
+            //Get Project Template Related Data;
+            letters = GetProjectTemplateData(letters);
+
+            //Set Approvers Email ID
+            // letters.forEach(letter => {
+            //     if (letter.Messages == null) {
+            //         SetApproverdata(letter, helper);
+            //     }
+            // });
+
+            //Start Document Generation process
+            letters = GenerateLetters(letters, true);
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/loader.gif" alt="Loading ..."
+                title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px" />
+        </div>
+
+    </div>
+    <div id="ctl00_PlaceHolderMain_updpnlPage">
+
+        <span id="ctl00_PlaceHolderMain_lblmsg"></span>
+        <table class="tablearea">
+            <tr>
+                <td width="20%">
+                    <b>Project:</b>
+                </td>
+                <td width="80%">
+                    <span id="lblProject"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Process:</b>
+                </td>
+                <td>
+                    <span id="lblProcess"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Document Type:</b>
+                </td>
+                <td>
+                    <span id="lblDocType"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table id="dtlstAck" cellspacing="0" style="width:100%;border-collapse:collapse;">
+                        <tr>
+                            <td>
+                                <tr>
+                                    <td width="15%">
+                                        <span id="ctl00_PlaceHolderMain_dtlstAck_ctl00_lblmessage">For Sanjay Patel(111),</span>
+                                    </td>
+                                    <td width="85%">
+                                        <table id="ctl00_PlaceHolderMain_dtlstAck_ctl00_dterrormsg" cellspacing="0" style="width:100%;border-collapse:collapse;">
+                                            <tr>
+                                                <td>
+                                                    <tr>
+                                                        <td width="5%">
+                                                            <img src='https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/Success.png' width="20px" height="20px" />
+                                                        </td>
+                                                        <td width="95%">
+                                                            <span id="ctl00_PlaceHolderMain_dtlstAck_ctl00_dterrormsg_ctl00_lblmessage" style="color:Green;">Success - Document has been generated successfully.
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <tr>
+                                    <td width="15%">
+                                        <span id="ctl00_PlaceHolderMain_dtlstAck_ctl01_lblmessage">For Vimal Shah(112),</span>
+                                    </td>
+                                    <td width="85%">
+                                        <table id="ctl00_PlaceHolderMain_dtlstAck_ctl01_dterrormsg" cellspacing="0" style="width:100%;border-collapse:collapse;">
+                                            <tr>
+                                                <td>
+                                                    <tr>
+                                                        <td width="5%">
+                                                            <img src='https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/Success.png' width="20px" height="20px" />
+                                                        </td>
+                                                        <td width="95%">
+                                                            <span id="ctl00_PlaceHolderMain_dtlstAck_ctl01_dterrormsg_ctl00_lblmessage" style="color:Green;">Success - Document has been generated successfully.
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                </tr>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" class="btn-blue" value="Proceed" onclick="ClosePopup(1)" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,550 @@
+<html dir="ltr" lang="en-US">
+
+<head>
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
+    />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
+    />
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+    <script type="text/javascript">
+        function RedirectToMyTaskPage(ID) {
+            window.location = "/Pages/Generatedocument.aspx?ID=" + ID;
+        }
+        //$(function () {
+        //    $("#accordion").accordion();
+        //});
+        $(function () {
+
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_initializeRequest(InitializeRequest);
+            prm.add_endRequest(EndRequest);
+            var activeIndex = parseInt($('#ctl00_PlaceHolderMain_hidAccordionIndex').val());
+
+            $("#accordion").accordion({
+                autoHeight: false,
+                event: "mousedown",
+                // animate: 2000 ,
+                active: activeIndex,
+                activate: function (event, ui) {
+                    var index = $(this).children('h3').index(ui.newHeader);
+                    $('#ctl00_PlaceHolderMain_hidAccordionIndex').val(index);
+                }
+            });
+        });
+        function InitializeRequest(sender, args) {
+        }
+        function EndRequest(sender, args) {
+            // after the UpdatePanel finish the render from ajax call
+            //  and the DOM is ready, re-initilize the accordion
+            var activeIndex = parseInt($('#ctl00_PlaceHolderMain_hidAccordionIndex').val());
+
+            $("#accordion").accordion({
+                autoHeight: false,
+                event: "mousedown",
+                // animate: 2000 ,
+                active: activeIndex,
+                activate: function (event, ui) {
+                    var index = $(this).children('h3').index(ui.newHeader);
+                    $('#ctl00_PlaceHolderMain_hidAccordionIndex').val(index);
+                }
+            });
+        }
+    </script>
+    <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        #contentBox {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        var s = 0;
+        function ShowPopUp(Title, URL, typ) {
+            s = typ;
+            var options = {
+                url: URL,
+                title: Title,
+                width: 900,
+                height: 750,
+                dialogReturnValueCallback: CloseAcknowledgement
+            }
+            SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);
+            return false;
+        }
+        function CloseAcknowledgement(dialogResult, returnValue) {
+            if (dialogResult == "1") {
+
+                if (s == 1)
+                    document.getElementById("ctl00_PlaceHolderMain_btnSearch").click();
+                else if (s == 2)
+                    document.getElementById("ctl00_PlaceHolderMain_btnSearchCSR").click();
+            }
+        }
+
+        function CloseCallback(dialogResult, returnValue) {
+            if (returnValue == "1") {
+                var activeIndex = parseInt($('#ctl00_PlaceHolderMain_hidAccordionIndex').val());
+
+                if (activeIndex == 0) {
+                    document.getElementById("ctl00_PlaceHolderMain_btnSearch").click();
+                }
+                else if (activeIndex == 1) {
+                    document.getElementById("ctl00_PlaceHolderMain_btnSearchME").click();
+                }
+                else if (activeIndex == 2) {
+                    document.getElementById("ctl00_PlaceHolderMain_btnSearchCSR").click();
+                }
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="/SiteAssets/Assets/images/loader.gif" alt="Loading ..." title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px"
+            />
+        </div>
+
+    </div>
+    <div id="ctl00_PlaceHolderMain_updpnlPage">
+
+        <table class="tablearea">
+            <tr>
+                <td>
+                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
+                </td>
+
+            </tr>
+        </table>
+        <div class="contentWrap">
+            <div class="content ">
+                <div class="innerContent">
+                    <div id="bgImage" class="contactusWrap"></div>
+                    <div role="tablist" class="ui-accordion ui-widget ui-helper-reset" id="accordion">
+                        <h3 tabindex="-1" aria-expanded="false" aria-selected="false" aria-controls="ui-id-2" id="ui-id-1" role="tab" class="ui-accordion-header ui-state-default ui-accordion-icons ui-corner-all">
+                            <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>Documents Sent to Me For Approval (
+                            <span id="ctl00_PlaceHolderMain_lblCount">0</span>) </h3>
+                        <div aria-hidden="true" role="tabpanel" aria-labelledby="ui-id-1" id="ui-id-2" style="display: none;" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+                            <table class="tablearea" style="width: 100% !important;">
+
+                                <tr>
+                                    <td>Project:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProject" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProject\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProject" class="custom-select">
+                                            <option selected="selected" value="0">---All---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Process:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProcess" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProcess\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProcess" class="custom-select">
+                                            <option selected="selected" value="0">---Select Process---</option>
+                                            <option value="3">Banking &amp; Collections Process</option>
+                                            <option value="6">Cancellation Process</option>
+                                            <option value="12">Deed of rectification</option>
+                                            <option value="16">Emploeyment</option>
+                                            <option value="13">Flat Modification Process</option>
+                                            <option value="17">Legal</option>
+                                            <option value="2">LOI and Registration Process</option>
+                                            <option value="15">Miscellaneous</option>
+                                            <option value="8">Other documents</option>
+                                            <option value="4">Possession Process</option>
+                                            <option value="5">Post-possession Process</option>
+                                            <option value="18">Quality</option>
+                                            <option value="14">Refund Coverings</option>
+                                            <option value="9">Refund Memos </option>
+                                            <option value="7">Resale Process</option>
+                                            <option value="1">Welcome Process</option>
+
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Document Type:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlDocType" id="ctl00_PlaceHolderMain_ddlDocType" class="custom-select">
+                                            <option selected="selected" value="0">---Select Document Type---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Sales Order ID:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtSalesOrderID" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderID" style="width:200px;"
+                                        />
+                                        <span id="ctl00_PlaceHolderMain_RegularExpressionValidator1" style="color:Red;visibility:hidden;">Please enter numbers only</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Name:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtCustomerName" type="text" id="ctl00_PlaceHolderMain_txtCustomerName" style="width:200px;"
+                                        />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnSearch&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
+                                            id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />&nbsp;
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset" class="btn-blue"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div>
+                                            <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvPendingApproval" style="width:100%;border-collapse:collapse;">
+                                                <tr>
+                                                    <td>
+                                                        <tr style="width: 100%;">
+
+                                                            <th scope="col">Doc Type</th>
+                                                            <th scope="col">Project Name</th>
+                                                            <th scope="col">Process Name</th>
+                                                            <th scope="col">Sales Order ID</th>
+                                                            <th scope="col">Customer Name</th>
+                                                            <th scope="col">Total Approvers</th>
+                                                            <th scope="col">Approval Pending</th>
+                                                            <th scope="col">Approval Completed</th>
+                                                            <th scope="col">Due Date</th>
+                                                            <th scope="col">Assigned To</th>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="11" class="no_record">No Record Found</td>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+                        </div>
+                        <h3 tabindex="0" aria-expanded="true" aria-selected="true" aria-controls="ui-id-4" id="ui-id-3" role="tab" class="ui-accordion-header ui-state-default ui-accordion-icons ui-accordion-header-active ui-corner-top">
+                            <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span>Documents Generated By Me (
+                            <span id="ctl00_PlaceHolderMain_lblCountME">0</span>)
+                        </h3>
+                        <div aria-hidden="false" role="tabpanel" aria-labelledby="ui-id-3" id="ui-id-4" style="display: block;" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+                            <table class="tablearea" style="width: 100% !important;">
+
+                                <tr>
+                                    <td>Project:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProjectME" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProjectME\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProjectME" class="custom-select">
+                                            <option selected="selected" value="0">---All---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Process:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProcessME" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProcessME\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProcessME" class="custom-select">
+                                            <option selected="selected" value="0">---Select Process---</option>
+                                            <option value="3">Banking &amp; Collections Process</option>
+                                            <option value="6">Cancellation Process</option>
+                                            <option value="12">Deed of rectification</option>
+                                            <option value="16">Emploeyment</option>
+                                            <option value="13">Flat Modification Process</option>
+                                            <option value="17">Legal</option>
+                                            <option value="2">LOI and Registration Process</option>
+                                            <option value="15">Miscellaneous</option>
+                                            <option value="8">Other documents</option>
+                                            <option value="4">Possession Process</option>
+                                            <option value="5">Post-possession Process</option>
+                                            <option value="18">Quality</option>
+                                            <option value="14">Refund Coverings</option>
+                                            <option value="9">Refund Memos </option>
+                                            <option value="7">Resale Process</option>
+                                            <option value="1">Welcome Process</option>
+
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Document Type:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlDocTypeME" id="ctl00_PlaceHolderMain_ddlDocTypeME" class="custom-select">
+                                            <option selected="selected" value="0">---Select Document Type---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Sales Order ID:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtSalesOrderIDME" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderIDME" style="width:200px;"
+                                        />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Name:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtCustomerNameME" type="text" id="ctl00_PlaceHolderMain_txtCustomerNameME" style="width:200px;"
+                                        />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnSearchME" value="Search" id="ctl00_PlaceHolderMain_btnSearchME" class="btn-blue"
+                                        /> &nbsp;
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnResetME" value="Reset" id="ctl00_PlaceHolderMain_btnResetME" class="btn-blue"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div>
+                                            <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvPendingApprovalME" style="width:100%;border-collapse:collapse;">
+                                                <tr>
+                                                    <td>
+                                                        <tr style="width: 100%;">
+
+                                                            <th scope="col">Doc Type</th>
+                                                            <th scope="col">Project Name</th>
+                                                            <th scope="col">Process Name</th>
+                                                            <th scope="col">Sales Order ID</th>
+                                                            <th scope="col">Customer Name</th>
+                                                            <th scope="col">Total Approvers</th>
+                                                            <th scope="col">Approval Pending</th>
+                                                            <th scope="col">Approval Completed</th>
+                                                            <th scope="col">Approval Status</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="10" class="no_record">No Record Found</td>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <h3 tabindex="0" aria-expanded="true" aria-selected="true" aria-controls="ui-id-4" id="ui-id-3" role="tab" class="ui-accordion-header ui-state-default ui-accordion-icons ui-accordion-header-active ui-corner-top">
+                            <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span>Scanning Requests Requiring My Approval (
+                            <span id="ctl00_PlaceHolderMain_lblMsgScan">0</span>)
+                        </h3>
+                        <div aria-hidden="false" role="tabpanel" aria-labelledby="ui-id-3" id="ui-id-4" style="display: block;" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+                            <table class="tablearea" style="width: 100% !important;">
+
+                                <tr>
+                                    <td>Project:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProjectScan" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProjectScan\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProjectScan" class="custom-select">
+                                            <option selected="selected" value="0">---All---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Process:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProcessScan" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProcessScan\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProcessScan" class="custom-select">
+                                            <option selected="selected" value="0">---Select Process---</option>
+                                            <option value="3">Banking &amp; Collections Process</option>
+                                            <option value="6">Cancellation Process</option>
+                                            <option value="12">Deed of rectification</option>
+                                            <option value="16">Emploeyment</option>
+                                            <option value="13">Flat Modification Process</option>
+                                            <option value="17">Legal</option>
+                                            <option value="2">LOI and Registration Process</option>
+                                            <option value="15">Miscellaneous</option>
+                                            <option value="8">Other documents</option>
+                                            <option value="4">Possession Process</option>
+                                            <option value="5">Post-possession Process</option>
+                                            <option value="18">Quality</option>
+                                            <option value="14">Refund Coverings</option>
+                                            <option value="9">Refund Memos </option>
+                                            <option value="7">Resale Process</option>
+                                            <option value="1">Welcome Process</option>
+
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Document Type:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlDocTypeScan" id="ctl00_PlaceHolderMain_ddlDocTypeScan" class="custom-select">
+                                            <option selected="selected" value="0">---Select Document Type---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Sales Order ID:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtSalesOrderIDScan" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderIDScan" style="width:200px;"
+                                        />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Name:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtCustomerNameScan" type="text" id="ctl00_PlaceHolderMain_txtCustomerNameScan" style="width:200px;"
+                                        />
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnSearchScan" value="Search" id="ctl00_PlaceHolderMain_btnSearchScan" class="btn-blue"
+                                        /> &nbsp;
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnResetScan" value="Reset" id="ctl00_PlaceHolderMain_btnResetScan" class="btn-blue"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <h3 tabindex="0" aria-expanded="true" aria-selected="true" aria-controls="ui-id-4" id="ui-id-3" role="tab" class="ui-accordion-header ui-state-default ui-accordion-icons ui-accordion-header-active ui-corner-top">
+                            <span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>Customer Service Requests (
+                            <span id="ctl00_PlaceHolderMain_lblMsgCSR">0</span>) </h3>
+                        <div aria-hidden="false" role="tabpanel" aria-labelledby="ui-id-3" id="ui-id-4" style="display: block;" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+                            <table class="tablearea" style="width: 100% !important;">
+
+                                <tr>
+                                    <td>Project:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProjectCSR" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProjectCSR\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProjectCSR" class="custom-select">
+                                            <option selected="selected" value="0">---All---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Process:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlProcessCSR" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$PlaceHolderMain$ddlProcessCSR\&#39;,\&#39;\&#39;)&#39;, 0)"
+                                            id="ctl00_PlaceHolderMain_ddlProcessCSR" class="custom-select">
+                                            <option selected="selected" value="0">---Select Process---</option>
+                                            <option value="3">Banking &amp; Collections Process</option>
+                                            <option value="6">Cancellation Process</option>
+                                            <option value="12">Deed of rectification</option>
+                                            <option value="16">Emploeyment</option>
+                                            <option value="13">Flat Modification Process</option>
+                                            <option value="17">Legal</option>
+                                            <option value="2">LOI and Registration Process</option>
+                                            <option value="15">Miscellaneous</option>
+                                            <option value="8">Other documents</option>
+                                            <option value="4">Possession Process</option>
+                                            <option value="5">Post-possession Process</option>
+                                            <option value="18">Quality</option>
+                                            <option value="14">Refund Coverings</option>
+                                            <option value="9">Refund Memos </option>
+                                            <option value="7">Resale Process</option>
+                                            <option value="1">Welcome Process</option>
+
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Document Type:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlDocTypeCSR" id="ctl00_PlaceHolderMain_ddlDocTypeCSR" class="custom-select">
+                                            <option selected="selected" value="0">---Select Document Type---</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td>Sales Order ID:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtSalesOrderIDCSR" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderIDCSR" style="width:200px;"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Customer Name:</td>
+                                    <td>
+                                        <input name="ctl00$PlaceHolderMain$txtCustomerNameCSR" type="text" id="ctl00_PlaceHolderMain_txtCustomerNameCSR" style="width:200px;"
+                                        />
+                                    </td>
+                                    <td>Status:</td>
+                                    <td>
+                                        <select name="ctl00$PlaceHolderMain$ddlStatus" id="ctl00_PlaceHolderMain_ddlStatus" class="custom-select">
+                                            <option value="0">---Select Status---</option>
+                                            <option value="Open">Open</option>
+                                            <option value="WIP">WIP</option>
+                                            <option value="Closed (Resolved)">Closed (Resolved)</option>
+                                            <option value="Closed (Unresolved)">Closed (Unresolved)</option>
+
+                                        </select>
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnSearchCSR" value="Search" id="ctl00_PlaceHolderMain_btnSearchCSR" class="btn-blue"
+                                        />&nbsp;
+                                        <input type="submit" name="ctl00$PlaceHolderMain$btnResetCSR" value="Reset" id="ctl00_PlaceHolderMain_btnResetCSR" class="btn-blue"
+                                        />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <div>
+                                            <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvPendingApprovalCSR" style="width:100%;border-collapse:collapse;">
+                                                <tr>
+                                                    <td>
+                                                        <tr style="width: 100%;">
+                                                            <th scope="col">Service Request ID</th>
+                                                            <th scope="col">Document Type</th>
+                                                            <th scope="col">Project Name</th>
+                                                            <th scope="col">Process Name</th>
+                                                            <th scope="col">Sales Order ID</th>
+                                                            <th scope="col">Customer Name</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Created Date</th>
+                                                            <th scope="col">Closed Date</th>
+                                                            <th scope="col">TAT</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="10" class="no_record">No Record Found</td>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="ctl00$PlaceHolderMain$hidAccordionIndex" id="ctl00_PlaceHolderMain_hidAccordionIndex" value="0"
+        />
+
+    </div>
+</body>
+
+</html>

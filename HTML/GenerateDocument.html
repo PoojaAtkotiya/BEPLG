@@ -1,0 +1,273 @@
+<html dir="ltr" lang="en-US">
+
+<head>
+
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
+    />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
+    />
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/GenerateDocument.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/CustomerTest.js"></script>
+    <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        #contentBox {
+            margin-left: 10px;
+            margin-right: 0px;
+        }
+    </style>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+    <script type="text/javascript">
+        function ImportfromExcel() {
+
+            var options = {
+                url: '/_layouts/15/PLG.DMS/ImportFromExcel.aspx?IsDlg=1',
+                title: 'Title, Description, and Icon',
+                width: 640,
+                height: 400
+            }
+            SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);
+            return false;
+
+        }
+
+        function CloseCallback(dialogResult, returnValue) {
+            if (returnValue == "1") {
+                document.getElementById("ctl00_PlaceHolderMain_btntemp").click();
+            }
+            else if (returnValue.indexOf('IsDlg') != -1) {
+                OpenSPModelDialog(returnValue);
+            }
+            else {
+                document.getElementById('txtSalesOrderID').value = returnValue;
+            }
+        }
+
+        // function SelectAllCheckboxes(spanChk) {
+
+        //     // Added as ASPX uses SPAN for checkbox
+        //     var oItem = spanChk.children;
+        //     var theBox = (spanChk.type == "checkbox") ? spanChk : spanChk.children.item[0];
+        //     xState = theBox.checked;
+        //     elm = theBox.form.elements;
+        //     var chkispdf = document.getElementById("ctl00_PlaceHolderMain_chkIsPdf")
+        //     if (chkispdf != null) {
+        //         for (i = 0; i < elm.length; i++)
+        //             if (elm[i].type == "checkbox" &&
+        //                 elm[i].id != theBox.id && elm[i].id != chkispdf.id) {
+        //                 //elm[i].click();   
+        //                 if (elm[i].checked != xState)
+        //                     elm[i].click();
+        //                 //elm[i].checked=xState;
+        //             }
+        //     }
+        //     else {
+        //         for (i = 0; i < elm.length; i++)
+        //             if (elm[i].type == "checkbox" &&
+        //                 elm[i].id != theBox.id) {
+        //                 //elm[i].click();   
+        //                 if (elm[i].checked != xState)
+        //                     elm[i].click();
+        //                 //elm[i].checked=xState;
+        //             }
+        //     }
+        // }
+
+        $(document).on('click', '.parentgrvDocChk', function () {
+            var isChecked = $(this).prop("checked");
+            $('#grvDocSelection tr:has(td)').find('input[type="checkbox"]').prop('checked', isChecked);
+        });
+
+        $(document).on('click', '.childgrvChk', function () {
+            var isChecked = $(this).prop("checked");
+            var isHeaderChecked = $(".parentgrvDocChk").prop("checked");
+            if (isChecked == false && isHeaderChecked)
+                $(".parentgrvDocChk").prop('checked', isChecked);
+            else {
+                $('#grvDocSelection tr:has(td)').find('input[type="checkbox"]').each(function () {
+                    if ($(this).prop("checked") == false)
+                        isChecked = false;
+                });
+                $(".parentgrvDocChk").prop('checked', isChecked);
+            }
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/loader.gif" alt="Loading ..."
+                title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px" />
+        </div>
+
+    </div>
+    <div id="updpnlGenerateDoc">
+        <table class="tablearea">
+            <tr>
+                <td>
+                    <h3 class="subtitle">Document Selection</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="tablearea">
+                        <tr>
+                            <td colspan="6">
+                                <span id="lblMsg" style="color:Red;"></span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <b>Note: </b>
+                                <span style="color: #ff0000">*</span> Fields are mandatory</td>
+                        </tr>
+                        <tr>
+                            <td width="10%">
+                                <span style="color: #ff0000">*</span> Project:</td>
+                            <td width="21%">
+                                <select name="ddlProject" onchange="ddlProject_SelectedIndexChanged(this);" id="ddlProject" class="custom-select" cType="combo"
+                                    valuebindingcolumn="Id" textbindingcolumn="Title">
+                                </select>
+                                <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span>
+                            </td>
+                            <td width="10%">
+                                <span style="color: #ff0000">*</span> Process:</td>
+                            <td width="21%">
+                                <select name="ddlProcess" id="ddlProcess" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="Title"
+                                    onchange="ddlProcess_SelectedIndexChanged">
+                                </select>
+                                <span id="rqfvddlProcess" style="color:Red;display:none;">Required!</span>
+                            </td>
+                            <td width="10%">
+                                <span style="color: #ff0000">*</span> Document Type:</td>
+                            <td width="24%">
+                                <select name="ddlDocType" id="ddlDocType" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="DocType_x0020_Title"
+                                    onchange="ddlDocType_SelectedIndexChanged">
+                                </select>
+                                <span id="rqfvddlDocType" style="color:Red;display:none;">Required!</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tower Name:</td>
+                            <td>
+                                <select name="ddlTower" id="ddlTower" class="custom-select">
+                                </select>
+                            </td>
+                            <td>Wing Name:</td>
+                            <td>
+                                <select name="ddlWing" id="ddlWing" class="custom-select">
+                                </select>
+                            </td>
+                            <td>Sales Order ID:</td>
+                            <td>
+                                <input name="txtSalesOrderID" type="text" id="txtSalesOrderID" style="width:200px;" />
+                                <input type="button" name="btnImport" value="Multiple" onclick="javascript:__doPostBack('ctl00$PlaceHolderMain$btnImport','')"
+                                    id="btnImport" class="btn-blue" />
+                                <span id="rgconte" style="color:Red;display:none;">only Number and , allow</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Customer Name:</td>
+                            <td>
+                                <input name="txtCustomerName" type="text" id="txtCustomerName" style="width:200px;" />
+                            </td>
+                            <td>
+                                <span id="lblispdf">Generate PDF:</span>
+                            </td>
+                            <td>
+                                <input id="chkIsPdf" type="checkbox" name="chkIsPdf" />
+                            </td>
+                            <td></td>
+                            <td>
+                                <input type="button" name="btnSearch" value="Search" id="btnSearch" class="btn-blue" onclick="btnSearch_Click();" />
+                                <input type="button" name="btnReset" value="Reset" id="btnReset" class="btn-blue" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <table class="griddata" cellspacing="0" id="grvDocSelection" style="width:100%;border-collapse:collapse;">
+                            <tr>
+                                <td>
+                                    <tr>
+                                        <th scope="col">
+                                            <input type="checkbox" value="a" class="parentgrvDocChk" />
+                                        </th>
+                                        <th scope="col">Customer Name</th>
+                                        <th scope="col">Sales Order ID</th>
+                                        <th scope="col">Tower</th>
+                                        <th scope="col">Wing</th>
+                                    </tr>
+                                    <tbody id="tbody_grvDocSelection">
+                                    </tbody>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <input type="button" name="btnGenerate" value="Generate" id="btnGenerate" class="btn-blue" style="float: left;" onclick="click_btnGenerate()"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="subtitle">Generated Documents</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <table class="griddata" cellspacing="0" id="grvGeneratedDoc" style="width:100%;border-collapse:collapse;">
+                            <tr>
+                                <td>
+                                    <tr>
+                                        <th scope="col">Document Name</th>
+                                        <th scope="col">Sales Order ID</th>
+                                        <th scope="col">Customer Name</th>
+                                        <th scope="col">Tower Name</th>
+                                        <th scope="col">Wing Name</th>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="no_record">No Record Found</td>
+                                    </tr>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+
+        </table>
+        <input type="submit" name="btntemp" value="" id="btntemp" style="display: none;" />
+
+
+    </div>
+</body>
+
+</html>

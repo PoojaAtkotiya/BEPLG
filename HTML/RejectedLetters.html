@@ -1,0 +1,190 @@
+<html dir="ltr" lang="en-US">
+
+<head>
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
+    />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
+    />
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+
+    <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        #contentBox {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        function ShowPopUp(Title, URL) {
+            var options = {
+                url: URL,
+                title: Title,
+                width: 640,
+                height: 400,
+                dialogReturnValueCallback: CloseAcknowledgement
+            }
+            SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);
+            return false;
+        }
+        function CloseAcknowledgement(dialogResult, returnValue) {
+            if (returnValue == "1") {
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="/SiteAssets/Assets/images/loader.gif" alt="Loading ..." title="Loading ..." Style="padding: 10px; position: fixed; top: 45%; left: 50%; Width:40px; Height:40px"
+            />
+        </div>
+
+    </div>
+    <div id="ctl00_PlaceHolderMain_updpnlPage">
+
+        <table class="tablearea">
+            <tr>
+                <td>
+                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="tablearea">
+                        <tr>
+                            <td colspan="6">
+                                <b>Note:</b>
+                                <span style="color: #ff0000">*</span> Fields are mandatory</td>
+
+                        </tr>
+                        <tr>
+                            <td width="10%">
+                                <span style="color: #ff0000">*</span> Project:</td>
+                            <td width="23%">
+                                <select name="ctl00$PlaceHolderMain$ddlProject" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlProject\',\'\')', 0)"
+                                    id="ctl00_PlaceHolderMain_ddlProject" class="custom-select">
+                                    <option selected="selected" value="0">---Select Project---</option>
+
+                                </select>
+                                <span id="ctl00_PlaceHolderMain_rqfvddlProject" style="color:Red;visibility:hidden;">Required!</span>
+                            </td>
+                            <td width="10%">Process:</td>
+                            <td width="23%">
+                                <select name="ctl00$PlaceHolderMain$ddlprocess" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlprocess\',\'\')', 0)"
+                                    id="ctl00_PlaceHolderMain_ddlprocess" class="custom-select">
+                                    <option selected="selected" value="0">---Select Process---</option>
+                                    <option value="3">Banking &amp; Collections Process</option>
+                                    <option value="6">Cancellation Process</option>
+                                    <option value="12">Deed of rectification</option>
+                                    <option value="16">Emploeyment</option>
+                                    <option value="13">Flat Modification Process</option>
+                                    <option value="17">Legal</option>
+                                    <option value="2">LOI and Registration Process</option>
+                                    <option value="15">Miscellaneous</option>
+                                    <option value="8">Other documents</option>
+                                    <option value="4">Possession Process</option>
+                                    <option value="5">Post-possession Process</option>
+                                    <option value="18">Quality</option>
+                                    <option value="14">Refund Coverings</option>
+                                    <option value="9">Refund Memos </option>
+                                    <option value="7">Resale Process</option>
+                                    <option value="1">Welcome Process</option>
+
+                                </select>
+                            </td>
+                            <td width="10%">Document Type:</td>
+                            <td width="24%">
+                                <select name="ctl00$PlaceHolderMain$ddlDocType" id="ctl00_PlaceHolderMain_ddlDocType" class="custom-select">
+                                    <option selected="selected" value="0">---Select Document Type---</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tower Name:</td>
+                            <td>
+                                <select name="ctl00$PlaceHolderMain$ddlTower" id="ctl00_PlaceHolderMain_ddlTower" class="custom-select">
+                                    <option selected="selected" value="0">---Select Tower---</option>
+
+                                </select>
+                            </td>
+
+                            <td>Wing:</td>
+                            <td>
+                                <select name="ctl00$PlaceHolderMain$ddlWing" id="ctl00_PlaceHolderMain_ddlWing" class="custom-select">
+                                    <option selected="selected" value="0">---Select Wing---</option>
+
+                                </select>
+
+                            </td>
+                            <td>Sales Order ID:</td>
+                            <td>
+                                <input name="ctl00$PlaceHolderMain$txtSalesOrderID" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderID" style="width:200px;"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Customer Name:</td>
+                            <td>
+                                <input name="ctl00$PlaceHolderMain$txtCustomerName" type="text" id="ctl00_PlaceHolderMain_txtCustomerName" style="width:200px;"
+                                />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnSearch&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
+                                    id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />
+                                <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset" class="btn-blue"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <span id="ctl00_PlaceHolderMain_lbl_ErrorMsg" style="color:Red;"></span>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_rejectedLettersGrid" style="width:100%;border-collapse:collapse;">
+                            <tr>
+                                <td>
+
+                                    <tr>
+                                        <th scope="col">Document Name</th>
+                                        <th scope="col">Project Name</th>
+                                        <th scope="col">Process Name</th>
+                                        <th scope="col">Sales Order ID</th>
+                                        <th scope="col">Customer Name</th>
+                                        <th scope="col">Rejected By</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="no_record">No Record Found</td>
+                                    </tr>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</body>
+
+</html>
