@@ -13,3 +13,12 @@ const ErrorType = {
     Error: "Error"
 }
 Object.freeze(ErrorType);
+
+const TaskStatus = {
+    
+    Pending: "Pending",
+    Approved: "Approved",
+    Rejected: "Rejected"
+    
+}
+Object.freeze(TaskStatus);
