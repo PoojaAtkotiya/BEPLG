@@ -46,10 +46,10 @@ function GetDocumentType(projectId, processId) {
     var documentType = null;
     var url = '';
     if (projectId != 0 && processId == 0) {
-        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('Project Templates')/Items?$select=DocType_x0020_Title/DocType_x0020_Title,ID,Platform&$expand=DocType_x0020_Title/DocType_x0020_Title&$orderby=DocType_x0020_Title&$filter=Project_x0020_NameId eq " + projectId;
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROJECTTEMPLATES + "')/Items?$select=DocType_x0020_Title/DocType_x0020_Title,ID,Platform&$expand=DocType_x0020_Title/DocType_x0020_Title&$orderby=DocType_x0020_Title&$filter=Project_x0020_NameId eq " + projectId;
     }
     else {
-        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('Project Templates')/Items?$select=DocType_x0020_Title/DocType_x0020_Title,ID,Platform&$expand=DocType_x0020_Title/DocType_x0020_Title&$orderby=DocType_x0020_Title&$filter=(Project_x0020_NameId eq " + projectId + ") and (Process_x0020_NameId eq " + processId + ")";
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROJECTTEMPLATES + "')/Items?$select=DocType_x0020_Title/DocType_x0020_Title,ID,Platform&$expand=DocType_x0020_Title/DocType_x0020_Title&$orderby=DocType_x0020_Title&$filter=(Project_x0020_NameId eq " + projectId + ") and (Process_x0020_NameId eq " + processId + ")";
     }
     GetMasterData(url, function (items) {
         documentType = items;
@@ -141,4 +141,22 @@ function GetProjectTemplateData(letters) {
         }
     });
     return letters;
+}
+
+function GetIsCancelStatus(DocType) {
+    if (DocType == DocTypes.CancellationRefundmemo || DocType == DocTypes.CancellationRefundCoveringLetter) {
+        return "YES";
+    }
+    else {
+        return "NO";
+    }
+}
+
+function GetApproverList(inputPara) {
+    var dicapprovers = {};
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTER + "')/items()?$select=Role/Title,UserId,User/EMail,User/Title,SalesOrderId,ProjectName/Id,ProjectName/Title&$expand=Role/Title,User/EMail,User/Title,ProjectName/Title";
+    GetMasterData(url, function (result) {
+        dicapprovers = result;
+    });
+    return dicapprovers;
 }

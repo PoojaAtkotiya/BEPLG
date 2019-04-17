@@ -125,3 +125,45 @@ function GetListData(url, type) {
 
     return result;
 }
+
+function GetUserEmailbyUserID(userid) {
+    var userEmail = "";
+    if (!IsNullOrUndefined(userid)) {
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        headers = {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "X-HTTP-Method": "POST"
+        };
+
+        AjaxCall(
+            {
+                url: url,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers: headers,
+                sucesscallbackfunction: function (data) {
+                    userEmail = data.d.Email;
+                }
+            });
+    }
+    return userEmail;
+}
+
+function ensureUser(webUrl, loginName) {
+    var payload = { 'logonName': loginName };
+    $.ajax({
+        url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/ensureuser",
+        type: "POST",
+        contentType: "application/json;odata=verbose",
+        data: JSON.stringify(payload),
+        headers: {
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "accept": "application/json;odata=verbose"
+        },
+        success: {},
+        error: {}
+    });
+}

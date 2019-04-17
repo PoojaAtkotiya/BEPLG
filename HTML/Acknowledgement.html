@@ -23,6 +23,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/GenerateDocument.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/CustomerTest.js"></script>
 
     <script type="text/javascript">
         //function ClosePopup(value) {
@@ -50,16 +51,29 @@
             //Get Project Template Related Data;
             letters = GetProjectTemplateData(letters);
 
-            //Set Approvers Email ID
-            // letters.forEach(letter => {
-            //     if (letter.Messages == null) {
-            //         SetApproverdata(letter, helper);
-            //     }
-            // });
+            // Set Approvers Email ID
+            letters.forEach(letter => {
+                if (letter.Messages == null) {
+                    SetApproverdata(letter);
+                }
+            });
 
             //Start Document Generation process
             letters = GenerateLetters(letters, true);
 
+            //Set Successfully Generated Letter Status.
+            letters.forEach(letter => {
+                if (IsNullOrUndefined(letter.Messages) || (!IsNullOrUndefined(letter.Messages) && !letter.Messages.some(p => p.ErrorType == ErrorType.Error ))) {
+                    if (letter.Messages == null)
+                        letter.Messages = [];
+                    // letter.Messages.Add(new Message() { ErrorType = ErrorType.Success, ErrorMessage = Constants.Messages.DocumentGeneratedSuccess });
+
+                    if (IsNullOrUndefined(letter.LetterURL) && letter.Messages[0].ErrorType == ErrorType.Success) {
+                        letter.Messages[0].ErrorType = ErrorType.Error;
+                        letter.Messages[0].ErrorMessage = Constants.Messages.SomethingWentWrong + "#" + obj.ErrMessage;
+                    }
+                }
+            });
         });
     </script>
 

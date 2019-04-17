@@ -8,7 +8,8 @@ const DocApprovalStatus = {
 Object.freeze(DocApprovalStatus);
 
 const ErrorType = {
-    Success,
-    Warning,
-    Error
+    Success: "Success",
+    Warning: "Warning",
+    Error: "Error"
 }
+Object.freeze(ErrorType);

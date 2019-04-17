@@ -70,3 +70,19 @@ function GetWingsOfProject(dict) {
     return wingList;
 
 }
+
+function GetEmailID(projectName, SalesOrderID, DocType) {
+    var inputPara = {};
+    inputPara["ProjectName"] = projectName;
+    inputPara["SalesOrderId"] = SalesOrderID;
+    inputPara["IsCancelled"] = GetIsCancelStatus(DocType);
+
+    var approvers = GetApproverList(inputPara);
+
+    var dicapprovers = {};
+    approvers.forEach(approver => {
+        dicapprovers[approver.Role.Title] = approver.User.EMail;
+    });
+
+    return dicapprovers;
+}

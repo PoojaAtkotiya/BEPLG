@@ -49,7 +49,8 @@ function BindDocType() {
 }
 
 function BindTowerName() {
-    BindDDL(null, 'ddlTower');
+    $("#ddlTower").html('');
+    $("#ddlTower").html("<option value=''>---Select---</option>");
     if (!IsNullOrUndefined($("#ddlProject").val())) {
 
         var dictionary = {};
@@ -65,6 +66,7 @@ function BindTowerName() {
         $(towers).each(function (i, e) {
             var cmditem = towers[i];
             var opt = $("<option/>");
+
             opt.text(cmditem);
             opt.attr("value", cmditem);
             opt.appendTo($("#ddlTower"));
@@ -74,7 +76,8 @@ function BindTowerName() {
 }
 
 function BindWing() {
-    BindDDL(null, 'ddlWing');
+    $("#ddlWing").html('');
+    $("#ddlWing").html("<option value=''>---Select---</option>");
     if (!IsNullOrUndefined($("#ddlProject").val())) {
 
         var dictionary = {};
@@ -259,4 +262,70 @@ function GenerateLetters(letters, isAdmin) {
         });
 
     return letters;
+}
+
+function SetApproverdata(letter) {
+    var dicapprovers = GetEmailID(letter.ProjectName, letter.SalesOrderID, letter.DocType);
+    if (letter.ApprovalWorkflow) {
+        ////Check for Approver 1
+        if (!IsNullOrUndefined(letter.Approver1) && !IsStrNullOrEmpty(letter.Approver1)) {
+            debugger
+            if (dicapprovers.hasOwnProperty(letter.Approver1)) //DoesUserExist(dicapprovers[letter.Approver1] ---> Pending
+            {
+                letter.ApproverDetails = dicapprovers[letter.Approver1];
+                letter.Approver1 = dicapprovers[letter.Approver1];
+                letter.TotalApprovers = 1;
+            }
+            else {
+                if (letter.Messages == null)
+                    letter.Messages = [];
+
+                //--- Pending -------------------
+                // letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver1), ErrorType = ErrorType.Error });
+            }
+        }
+        ////Check for Approver 2
+        if (!IsNullOrUndefined(letter.Approver2) && !IsStrNullOrEmpty(letter.Approver2)) {
+
+            if (dicapprovers.indexOf(letter.Approver2)) { // && helper.DoesUserExist(dicapprovers[letter.Approver2])) 
+                letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver2];
+                letter.Approver2 = dicapprovers[letter.Approver2];
+                letter.TotalApprovers = 2;
+            }
+            else {
+                if (letter.Messages == null)
+                    letter.Messages = [];
+                // letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver2), ErrorType = ErrorType.Error });
+            }
+        }
+        ////Check for Approver 3
+        if (!IsNullOrUndefined(letter.Approver3) && !IsStrNullOrEmpty(letter.Approver3)) {
+            if (dicapprovers.ContainsKey(letter.Approver3)) //&& helper.DoesUserExist(dicapprovers[letter.Approver3]))
+            {
+                letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver3];
+                letter.Approver3 = dicapprovers[letter.Approver3];
+                letter.TotalApprovers = 3;
+            }
+            else {
+                if (letter.Messages == null)
+                    letter.Messages = [];
+                // letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver3), ErrorType = ErrorType.Error });
+            }
+        }
+        ////Check for Approver 4
+        if (!IsNullOrUndefined(letter.Approver4) && !IsStrNullOrEmpty(letter.Approver4)) {
+            if (dicapprovers.ContainsKey(letter.Approver4))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
+            {
+                letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver4];
+                letter.Approver4 = dicapprovers[letter.Approver4];
+                letter.TotalApprovers = 4;
+
+            }
+            else {
+                if (letter.Messages == null)
+                    letter.Messages = [];
+                //letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver4), ErrorType = ErrorType.Error });
+            }
+        }
+    }
 }
