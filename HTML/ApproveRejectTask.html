@@ -1,0 +1,161 @@
+<html>
+
+<head>
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css" />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css" />
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/TaskMaster.js"></script>
+    <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        #contentBox {
+            margin-left: 10px;
+            margin-right: 0px;
+        }
+
+        
+        #txtCommentsCount {
+            width: 80%;
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript" src="/_layouts/15/JsScript/PLGCustom.js"></script>
+    <script type="text/javascript">
+        function countChar(val) {
+            var len = val.value.length;
+            if (len > 1000) {
+                val.value = val.value.substring(0, 1000);
+            } else {
+                $('#txtCommentsCount').text((1000 - len) + " character(s) left");
+            }
+        };
+        function ShowReport() {
+            var SOD = document.getElementById('ctl00_PlaceHolderMain_lblSalesOrderID').innerHTML;
+            /*var options = {
+                url: '/_layouts/15/PLG.DMS.Reports/SalesRegisterReport.aspx?IsDlg=1&SOD=' + SOD,
+                title: 'Sales Register',
+                width: 640,
+                height: 400,
+                dialogReturnValueCallback: CloseAcknowledgement
+            }
+            SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);*/
+            window.open("/_layouts/15/PLG.DMS.Reports/SalesRegisterReport.aspx?SOD=" + SOD);
+            return false;
+        }
+        function CloseAcknowledgement(dialogResult, returnValue) {
+            if (returnValue == "1") {
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="/SiteAssets/Assets/images/loader.gif" alt="Loading ..." title="Loading ..."
+                style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px" />
+        </div>
+
+    </div>
+    <div id="ctl00_PlaceHolderMain_updpnlPage">
+
+        <table class="tablearea" style="width: 100% !important;">
+            <tr>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 85%;" colspan="3">
+                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">Title:</td>
+                <td style="width: 85%;" colspan="3">
+                    <span id="ctl00_PlaceHolderMain_lblTitle">111 | Sanjay Patel | ROC request
+                        letter to Finance</span></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">Document:</td>
+                <td style="width: 85%;" colspan="3">
+                    <div id="ctl00_PlaceHolderMain_bravaviewer"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 15%;">Project Name:</td>
+                <td style="width: 35%;">
+                    <span id="ctl00_PlaceHolderMain_lblProjectName">Aurora</span></td>
+                <td style="width: 15%;">Process Name:</td>
+                <td style="width: 35%;">
+                    <span id="ctl00_PlaceHolderMain_lblProcessName">Banking & Collections
+                        Process</span></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">Sales Order ID:</td>
+                <td style="width: 35%;">
+                    <span id="ctl00_PlaceHolderMain_lblSalesOrderID">111</span>
+                </td>
+                <td style="width: 15%;">Customer Name:</td>
+                <td style="width: 35%;">
+                    <span id="ctl00_PlaceHolderMain_lblCustomerName">Sanjay Patel</span></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">Action:</td>
+                <td style="width: 35%;">
+                    <a onclick="javascript:ShowReport();" href="#" title="Link to Sales Register">Link
+                        to Sales Register</a>
+                </td>
+                <td style="width: 15%;">Due Date:</td>
+                <td style="width: 35%;">
+                    <span id="ctl00_PlaceHolderMain_lblDueDate">10 Feb 2019</span></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">Assigned To:</td>
+                <td style="width: 85%;" colspan="3">
+                    <span id="ctl00_PlaceHolderMain_lblAssignedTo">Jatin Ambaliya</span></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;"><span style="color: #ff0000">*</span> Comments:</td>
+                <td style="width: 85%;" colspan="3">
+                    <textarea name="ctl00$PlaceHolderMain$txtComments" rows="5" cols="20" id="txtComments" onkeyup="countChar(this)"
+                        style="width:80%;">
+</textarea>
+                    <div id="txtCommentsCount">1000 character(s) left</div>
+                    <span id="ctl00_PlaceHolderMain_rqfvtxtComments" style="color:Red;visibility:hidden;">Comments
+                        are mandatory</span>
+                    <span id="ctl00_PlaceHolderMain_regexpDesc" style="visibility:hidden;">Maximum
+                        of 1000 characters allowed</span>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%;">&nbsp;</td>
+                <td style="width: 85%;" align="right" colspan="3">
+                    <input type="submit" name="ctl00$PlaceHolderMain$btnApprove" value="Approve" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnApprove&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
+                        id="ctl00_PlaceHolderMain_btnApprove" class="btn-blue" />
+                    <input type="submit" name="ctl00$PlaceHolderMain$btnReject" value="Reject" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnReject&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
+                        id="ctl00_PlaceHolderMain_btnReject" class="btn-blue" />
+                    <input type="submit" name="ctl00$PlaceHolderMain$btnCancel" value="Back To My Tasks" id="ctl00_PlaceHolderMain_btnCancel"
+                        class="btn-blue" />
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+
+</html>
