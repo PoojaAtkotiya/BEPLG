@@ -20,6 +20,12 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
 
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PolicyProcedures.js"></script>
 
 
     <style type="text/css">
@@ -35,13 +41,12 @@
             margin-left: 10px;
             margin-right: 0px;
         }
+
+        .dataTables_length {
+            padding-bottom: 4px;
+        }
     </style>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#grvPolicyTypes').DataTable({});
-        });
-    </script>
 </head>
 
 <body>
@@ -52,58 +57,36 @@
         </div>
     </div>
     <div id="updpnlPage">
-        <p> Policy Types</p>
+        <div>
+            <p>
+                <h3>Policy Types </h3>
+            </p>
+        </div>
         <div>
             <table id="grvPolicyTypes" class="tablearea display responsive nowrap" style="width:100%;">
                 <thead>
                     <tr>
-                        <th>Policy Type</th>
-                        <th>Owner</th>
-                        <th>Modified Date</th>
-                        <th>Modified By</th>
-                        <th>Created Date</th>
-                        <th>Created By</th>
-                        <th>Action</th>
+                        <th width="25%">Policy Type</th>
+                        <th width="25%">Owner</th>
+                        <th width="10%">Modified Date</th>
+                        <th width="10%">Modified By</th>
+                        <th width="10%">Created Date</th>
+                        <th width="10%">Created By</th>
+                        <th width="10%">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Policy Type</td>
-                        <td>Owner</td>
-                        <td>Modified Date</td>
-                        <td>Modified By</td>
-                        <td>Created Date</td>
-                        <td>Created By</td>
-                        <td>Action</td>
-                    </tr>
-                    <tr>
-                        <td>Policy Type</td>
-                        <td>Owner</td>
-                        <td>Modified Date</td>
-                        <td>Modified By</td>
-                        <td>Created Date</td>
-                        <td>Created By</td>
-                        <td>Action</td>
-                    </tr>
-                    <tr>
-                        <td>Policy Type</td>
-                        <td>Owner</td>
-                        <td>Modified Date</td>
-                        <td>Modified By</td>
-                        <td>Created Date</td>
-                        <td>Created By</td>
-                        <td>Action</td>
-                    </tr>
-                </tbody>
             </table>
         </div>
-
-        <p>Procedure Types</p>
-
+        <br/>
         <div>
-            <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvProcessTypes" style="width:98%;border-collapse:collapse;">
+            <p>
+                <h3>Procedure Types</h3>
+            </p>
+        </div>
+        <div>
+            <table class="griddata tablearea responsive" cellspacing="0" id="grvProcessTypes" style="width:100%; border-collapse:collapse;">
                 <thead>
-                    <tr style="width: 100%;">
+                    <tr>
                         <th width="25%" scope="col">Process Type</th>
                         <th width="25%" scope="col">Owner</th>
                         <th width="10%" scope="col">Modified Date</th>
@@ -113,12 +96,6 @@
                         <th width="10%" scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="7" class="no_record">No Record Found</td>
-                    </tr>
-                </tbody>
-
             </table>
         </div>
     </div>

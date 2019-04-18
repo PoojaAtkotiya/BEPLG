@@ -218,6 +218,7 @@ function click_btnGenerate() {
         letter.ProcessID = Number($("#ddlProcess").val());
         letter.TemplateID = Number($("#ddlDocType").val());
         letter.DocType = $("select#ddlDocType>option:selected").text();
+        letter.DocTypeID = Number($("#ddlDocType").val());
 
         letter.isPdf = $("#chkIsPdf").is(":checked");
         letter.SalesOrderID = data.SalesOrderID;
@@ -226,6 +227,40 @@ function click_btnGenerate() {
         letter.WingName = data.Wing;
         letter.CreatedByID = _spPageContextInfo.userId;
         letter.IsReGenerate = false;
+        letter.Title = "";
+        letter.ID = "";
+        letter.DocTypeCode = '';
+        letter.Parameter = '';
+        letter.ApprovalWorkflow = false;
+        letter.Approver1 = '';
+        letter.Approver2 = '';
+        letter.Approver3 = '';
+        letter.Approver4 = '';
+        letter.FinalApprover = '';
+        letter.FinalSignatory = '';
+        letter.ApprovalStatus = null;
+        letter.Comments = '';
+        letter.GeneratedDate = new Date();
+        letter.PublishedDate = new Date();
+        letter.Platform = '';
+        letter.TotalApprovers = Number();
+        letter.ApprovalPending = Number();
+        letter.ApprovalCompleted = Number();
+        letter.CustomerCanRequest = false;
+        letter.CustomerVisible = false;
+        letter.CustomerRead = false;
+        letter.ModeofDispatch = '';
+        letter.AutomationRequirement = false;
+        letter.Combiningtobedone = false;
+        letter.SMSRequired = false;
+        letter.SMSContent = false;
+        letter.SignaturetobeShown = false;
+        letter.LetterURL = '';
+        letter.isDynamic = false;
+        letter.PreparedBy = '';
+        letter.Messages = [];
+        letter.ApproverDetails = '';
+
         letters.push(letter);
     });
 
