@@ -8,7 +8,8 @@ const ListNames = {
     PROCESSMASTER: "Processes",
     PROJECTTEMPLATES: "Project Templates",
     PROPERTYLETTERS: "Property Letters",
-    APPROVERMASTER: "ApproverMaster"
+    APPROVERMASTER: "ApproverMaster",
+    POLICYTYPES: "Policy Types",
 }
 Object.freeze(ListNames);
 
@@ -105,3 +106,61 @@ const DocTypes = {
     DeedofCancellation: "Deed of Cancellation"
 }
 Object.freeze(DocTypes);
+
+const Messages = {
+    SAPisNotAvailable: "SAP is not available.",
+    TechnicalIssueOccurrred: "Technical issue occurred, kindly contact your System Administrator.",
+    WebserviceDown: "Currently web service has been down, kindly contact your System Administrator.",
+    SomethingWentWrong: "Something went wrong with document generation process, hence document can't generated.",
+    EmailSubjectandRecipient: "Email recipient and/or Subject not found, hence email can't Send.",
+
+    DocumentGeneratedSuccess: "Document has been generated successfully.",
+    AlreadyGenerated: "Please, Process all generated documents before generate new document.",
+    ProcessCancel: "Document process has been cancelled.",
+    ProcessDelete: "Document has been deleted.",
+    SelectCustomer: "Please select customer to generate letter.",
+
+    PublishDocumentConfirm: "This action will send the document to the DMS storage and also save the document on the Customer's portal. As per policy, you need to take a print out of this document and send the same to the customer as a hard copy. Do you wish to proceed?",
+    PublishDocumentSuccess: "Document saved in DMS and Customer portal. Please print and send to customer after necessary signatures.",
+
+    SkipApprovalConfirm: "Are you sure want to Skip approval Process.",
+    SkipApprovalSuccess: "Approval process has been skip successfully.",
+
+    SendApprovalConfirm: "This action will send the document for approval.",
+    SendApprovalSuccess: "Approval process has been started successfully.",
+    TaskRelatedDocumentDeleted: "This task related document has been deleted hence you can't approver/reject this task.However you can cancel this task.",
+    TaskApproved: "Task has been Approved.",
+    TaskRejected: "Task has been Rejected.",
+    TaskCanceled: "Task has been Canceled.",
+
+    SendEmailBodyConfirm: "This action will send the document to the customer via email and also save the doc in the DMS storage and on the Customer's portal. Do you wish to proceed?",
+    SendEmailBodySuccess: "Email sent to customer and document saved in DMS and Customer portal.",
+
+    ApproverNotFound: "{0} has not been maintained for the approval process in SAP/SharePoint. Hence the document cannot be generated. Please maintain and re-generate.",
+    CustomerEmailNotFound: "Email cannot be send, customer email address not available in the system.",
+    InternalEmailNotFound: "Email cannot be send, Internal Team email address not available in the system.",
+
+    ValidationCoveringLetter: "Welcome email date not found hence letter can't generate.",
+    ValidationLetterAlreadyGenerated: "This letter has already been generated. Hence, the same cannot be re-generated. Please contact your local Admin (Abhijeet Roy) for assistance.",
+    ValidationAnnexureNOTFound: "No annexure found for",
+    ProblemMergingAnnexuers: "Problem in merging Annexures",
+    ValidationNODocTypeFound: "For this document, annexure not found/published - ",
+    ValidationAnnexureAminities: "The amenities list was not found for this customer. It is recommended to cancel this document and upload the Amenities List and re-generate the document",
+    ValidationAnnexureLienReleaseletter: "The Lien Release Letter was not found for this customer. It is recommended to cancel this document and upload the Lien Release Letter and re-generate the document",
+    ValidationAnnexureIndexII: "The Index II was not found for this customer. It is recommended to cancel this document and upload the Index II and re-generate the document",
+    ValidationAnnexureRegistrationReceipt: "The Registration Receipt was not found for this customer. It is recommended to cancel this document and upload the Registration Receipt and re-generate the document",
+    ValidationAnnexureNoDues: "The No dues Certificate was not found for this customer. It is recommended to cancel this document and upload the No dues Certificate and re-generate the document",
+    ValidationAnnexureAOS: "The Agreement for Sale was not found for this customer. It is recommended to cancel this document and upload the Agreement for Sale and re-generate the document",
+    ValidationAnnexureSDR: "The SDR Receipt was not found for this customer. It is recommended to cancel this document and upload the SDR Receipt and re-generate the document",
+    ValidationAnnexureNOCtoMortgageCopy: "The NOC to mortgage copy was not found for this customer. It is recommended to cancel this document and upload the NOC to mortgage and re-generate the document",
+    ValidationAnnexureInterestStatement: "The Interest statement was not found for this customer. It is recommended to cancel this document and upload the Interest statement and re-generate the document",
+    ValidationAnnexureRequestFromCustomerForModification: "The Flat modification Request letter from customer was not found for this customer. It is recommended to cancel this document and upload the Flat modification Request letter from customer and re-generate the document.",
+    ValidationAnnexureMemoEstimationTeam: "The Flat modification memo from Estimations Team was not found for this customer. It is recommended to cancel this document and upload the Flat modification memo from Estimations Team and re-generate the document.",
+    ValidationAnnexureMemoProjectTeam: "The Flat modification memo from Projects team was not found for this customer. It is recommended to cancel this document and upload the Flat modification memo from Projects team and re-generate the document",
+    ValidationSignedVoluntaryFinalTermination: "The Signed Voluntary Cancellation Letter or the Final Termination Letter were not found for this customer. It is recommended to cancel this document and upload the Signed Voluntary Cancellation Letter or the Final Termination Letter and re-generate the document",
+    ValidationAnnexureRequestCustInteriorWork: "The Request from Customer for Interior Deposit Refund was not found for this Customer. It is recommended that you cancel this letter and upload the Request from Customer for Interior Deposit Refund & regenerate the document again.",
+    ValidationAnnexureDeedofCancellation: "The Deed of Cancellation was not found for this Customer. It is recommended that you cancel this letter and upload the Deed of Cancellation & regenerate the document again.",
+    ValidationAnnexureMemofromProjectsTeam: "The Memo from Projects Team for release of Interior Deposit Refund was not found for this Customer. It is recommended that you cancel this letter and upload the Memo from Projects Team for release of Interior Deposit Refund & regenerate the document again.",
+    SignedLOINotFound: "Signed Letter of Intent not found for this customer It is recommended that you cancel this letter and upload the signed Letter of Intent & regenerate the document again.",
+}
+Object.freeze(Messages);

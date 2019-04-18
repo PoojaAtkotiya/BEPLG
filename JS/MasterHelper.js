@@ -154,7 +154,7 @@ function GetIsCancelStatus(DocType) {
 
 function GetApproverList(inputPara) {
     var dicapprovers = {};
-    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTER + "')/items()?$select=Role/Title,UserId,User/EMail,User/Title,SalesOrderId,ProjectName/Id,ProjectName/Title&$expand=Role/Title,User/EMail,User/Title,ProjectName/Title";
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.APPROVERMASTER + "')/items?$select=Role/Title,UserId,User/EMail,User/Title,SalesOrderId,ProjectName/Id,ProjectName/Title&$expand=Role/Title,User/EMail,User/Title,ProjectName/Title";
     GetMasterData(url, function (result) {
         dicapprovers = result;
     });

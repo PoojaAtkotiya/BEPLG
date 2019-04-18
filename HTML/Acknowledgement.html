@@ -8,19 +8,27 @@
     />
     <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
     />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/css/ui.jqgrid.min.css">
+
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/jquery.jqgrid.min.js"></script>
+
+
+
     <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
 
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
-
-
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/GenerateDocument.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/CustomerTest.js"></script>
@@ -63,20 +71,39 @@
 
             //Set Successfully Generated Letter Status.
             letters.forEach(letter => {
-                if (IsNullOrUndefined(letter.Messages) || (!IsNullOrUndefined(letter.Messages) && !letter.Messages.some(p => p.ErrorType == ErrorType.Error ))) {
+                if (IsNullOrUndefined(letter.Messages) || (!IsNullOrUndefined(letter.Messages) && !letter.Messages.some(p => p.ErrorType == ErrorType.Error))) {
                     if (letter.Messages == null)
                         letter.Messages = [];
-                    // letter.Messages.Add(new Message() { ErrorType = ErrorType.Success, ErrorMessage = Constants.Messages.DocumentGeneratedSuccess });
+                    letter.Messages.push({ ErrorType: ErrorType.Success, ErrorMessage: Messages.DocumentGeneratedSuccess });
 
                     if (IsNullOrUndefined(letter.LetterURL) && letter.Messages[0].ErrorType == ErrorType.Success) {
                         letter.Messages[0].ErrorType = ErrorType.Error;
-                        letter.Messages[0].ErrorMessage = Constants.Messages.SomethingWentWrong + "#" + obj.ErrMessage;
+                        letter.Messages[0].ErrorMessage = Messages.SomethingWentWrong + "#"; //+ obj.ErrMessage;
                     }
                 }
             });
+
+            $("#lblProject").html(letters[0].ProjectName);
+            $("#lblProcess").html(letters[0].ProcessName);
+            $("#lblDocType").html(letters[0].DocType);
+
+            var gridData = [];
+            letters.forEach(letter => {
+                gridData.push({ name: "For " + letter.CustomerName + "(" + letter.SalesOrderID + ")", errorMsg: letter.Messages })
+            });
+
+
+            "use strict";
+            $("#dtlstAck").jqGrid({
+                colModel: [
+                    { name: "name", label: "" },
+                    { name: "errorMsg", label: "" }
+                ],
+                data: gridData
+            });
+
         });
     </script>
-
 </head>
 
 <body>
@@ -118,61 +145,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <table id="dtlstAck" cellspacing="0" style="width:100%;border-collapse:collapse;">
-                        <tr>
-                            <td>
-                                <tr>
-                                    <td width="15%">
-                                        <span id="ctl00_PlaceHolderMain_dtlstAck_ctl00_lblmessage">For Sanjay Patel(111),</span>
-                                    </td>
-                                    <td width="85%">
-                                        <table id="ctl00_PlaceHolderMain_dtlstAck_ctl00_dterrormsg" cellspacing="0" style="width:100%;border-collapse:collapse;">
-                                            <tr>
-                                                <td>
-                                                    <tr>
-                                                        <td width="5%">
-                                                            <img src='https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/Success.png' width="20px" height="20px" />
-                                                        </td>
-                                                        <td width="95%">
-                                                            <span id="ctl00_PlaceHolderMain_dtlstAck_ctl00_dterrormsg_ctl00_lblmessage" style="color:Green;">Success - Document has been generated successfully.
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <tr>
-                                    <td width="15%">
-                                        <span id="ctl00_PlaceHolderMain_dtlstAck_ctl01_lblmessage">For Vimal Shah(112),</span>
-                                    </td>
-                                    <td width="85%">
-                                        <table id="ctl00_PlaceHolderMain_dtlstAck_ctl01_dterrormsg" cellspacing="0" style="width:100%;border-collapse:collapse;">
-                                            <tr>
-                                                <td>
-                                                    <tr>
-                                                        <td width="5%">
-                                                            <img src='https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/Success.png' width="20px" height="20px" />
-                                                        </td>
-                                                        <td width="95%">
-                                                            <span id="ctl00_PlaceHolderMain_dtlstAck_ctl01_dterrormsg_ctl00_lblmessage" style="color:Green;">Success - Document has been generated successfully.
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-
-                                </tr>
-                            </td>
-                        </tr>
-                    </table>
+                    <table id="dtlstAck"></table>
                 </td>
             </tr>
             <tr>
