@@ -160,3 +160,18 @@ function GetApproverList(inputPara) {
     });
     return dicapprovers;
 }
+
+function GetPropertyLetterByID(iD){
+    var letteritem = null;
+    try {
+        var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + iD + ")";
+        GetMasterData(url, function (items) {
+            letteritem = items;
+        });
+    }
+
+    catch (ex) {
+    }
+    return letteritem;
+
+}

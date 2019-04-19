@@ -1,0 +1,155 @@
+<html>
+
+<head>
+
+        <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
+        />
+        <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
+        />
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+        <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+    <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        #contentBox {
+            margin-left: 10px;
+            margin-right: 0px;
+        }
+
+
+        #txtCommentsCount {
+            width: 80%;
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript">
+
+
+        function CloseCallback(dialogResult, returnValue) {
+            if (dialogResult == "1") {
+                document.getElementById("ctl00_PlaceHolderMain_btnSearch").click();
+            }
+        }
+
+
+        function showPopups() {
+
+            var options = {
+                title: "My Dialog Title",
+                width: 600,
+                height: 400,
+                url: "",
+                dialogReturnValueCallback: function (dialogResult) {
+                    document.getElementById('ctl00_PlaceHolderMain_hdn').value = "1";
+                    SP.UI.ModalDialog.RefreshPage(dialogResult)
+                }
+            };
+            try {
+
+                SP.UI.ModalDialog.showModalDialog(options);
+            }
+            catch (error) {
+                SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
+
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="/SiteAssets/Assets/images/loader.gif" alt="Loading ..." title="Loading ..."
+                style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px" />
+        </div>
+
+    </div>
+    <div id="ctl00_PlaceHolderMain_updpnlPage">
+
+        <input name="ctl00$PlaceHolderMain$hdn" type="hidden" id="ctl00_PlaceHolderMain_hdn" value="/_layouts/15/Upload.aspx?List=7f7c241a-dbf6-412f-bc8b-fc16afca3389&amp;RootFolder=" />
+        <table class="tablearea" order="0" width="100%">
+            <tr>
+                <td width="100%">
+                    <table class="tablearea" order="0" width="100%">
+                        <tr>
+                            <td colspan="4"> <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><b>Note:</b><span style="color: #ff0000">*</span> fields are
+                                mandatory</td>
+                        </tr>
+                        <tr>
+                            <td width="20%"><span style="color: #ff0000">*</span> Project:</td>
+                            <td width="30%">
+                                <select name="ctl00$PlaceHolderMain$ddlProject" id="ctl00_PlaceHolderMain_ddlProject"
+                                    class="custom-select">
+                                    <option selected="selected" value="0">---Select Project---</option>
+                                    <option value="1">Aurora</option>
+                                    <option value="18">Centurion</option>
+                                    <option value="19">Century Bhavan</option>
+                                    <option value="21">Century Mills</option>
+                                    <option value="23">Kamba</option>
+                                    <option value="22">Shahad</option>
+
+                                </select>
+                                <span id="ctl00_PlaceHolderMain_rqfvddlProject" style="color:Red;visibility:hidden;">Required!</span>
+                            </td>
+                            <td width="20%"><input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search"
+                                    onclick="" id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />
+                                <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset"
+                                    class="btn-blue" />
+                            </td>
+                            <td width="30%">
+
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="100%">
+                    <div>
+                        <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvAnnexure" style="width:98%;border-collapse:collapse;">
+
+                            <tr style="width: 100%;">
+                                <th scope="col" width="15%">Name</th>
+                                <th scope="col" width="15%">Project Name</th>
+                                <th scope="col" width="15%" style="display:none;">Process Name</th>
+                                <th scope="col" width="15%" style="display:none;">Doc Type</th>
+                                <th scope="col" width="15%">Created By</th>
+                                <th scope="col" width="10%">Created On</th>
+                                <th scope="col" width="15%"></th>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="no_record">No Record Found</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+</body>
+
+</html>

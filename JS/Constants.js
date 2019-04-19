@@ -22,3 +22,10 @@ const TaskStatus = {
     
 }
 Object.freeze(TaskStatus);
+
+const Messages = {
+    
+    TaskRelatedDocumentDeleted : "This task related document has been deleted hence you can't approver/reject this task.However you can cancel this task."
+    
+}
+Object.freeze(Messages);
