@@ -11,6 +11,8 @@ const ListNames = {
     APPROVERMASTER: "ApproverMaster",
     POLICYTYPES: "Policy Types",
     PROCESSTYPES: "Process Types",
+    PROPERTYLETTERSTEMPLATE: "Property Letter Templates",
+
 }
 Object.freeze(ListNames);
 

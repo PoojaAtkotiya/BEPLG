@@ -169,8 +169,35 @@ function ensureUser(webUrl, loginName) {
 }
 
 function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    name = name.toLowerCase().replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
+
+function CopyFile(fromPath, toPath) {
+    var fileItemResult;
+    var oUrl = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getfilebyserverrelativeurl('" + fromPath + "')/copyto(strnewurl='" + toPath + "',boverwrite=true)";
+    $.ajax({
+        url: oUrl,
+        type: "POST",
+        async: false,
+        headers: {
+            "Accept": "application/json; odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()
+        },
+        success: function (data) {
+            var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/GetFileByServerRelativeUrl('" + toPath + "')?select=ListItemAllFields&$expand=ListItemAllFields";
+            var data = GetListData(url);
+            fileItemResult = data.d.ListItemAllFields;
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+    return fileItemResult;
+}
+
+function GetItemTypeForListName(name) {
+    return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+}

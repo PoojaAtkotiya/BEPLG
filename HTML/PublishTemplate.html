@@ -13,26 +13,62 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
 
-    <script type="text/javascript">
-        function SelectAllCheckboxes(spanChk) {
-            var oItem = spanChk.children;
-            var theBox = (spanChk.type == "checkbox") ?
-                spanChk : spanChk.children.item[0];
-            xState = theBox.checked;
-            elm = theBox.form.elements;
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+    />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
 
-            for (i = 0; i < elm.length; i++)
-                if (elm[i].type == "checkbox" &&
-                    elm[i].id != theBox.id) {
-                    if (elm[i].checked != xState)
-                        elm[i].click();
-                }
-        }
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PublishTemplate.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).on('click', '.parentgrvProjects', function () {
+            var isChecked = $(this).prop("checked");
+            $('#grvProjects tr:has(td)').find('input[type="checkbox"]').prop('checked', isChecked);
+        });
+
+        $(document).on('click', '.childgrvProjects', function () {
+            var isChecked = $(this).prop("checked");
+            var isHeaderChecked = $(".parentgrvProjects").prop("checked");
+            if (isChecked == false && isHeaderChecked)
+                $(".parentgrvProjects").prop('checked', isChecked);
+            else {
+                $('#grvProjects tr:has(td)').find('input[type="checkbox"]').each(function () {
+                    if ($(this).prop("checked") == false)
+                        isChecked = false;
+                });
+                $(".parentgrvProjects").prop('checked', isChecked);
+            }
+
+        });
     </script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+
     <style type="text/css">
+        #sideNavBox {
+            display: none !important;
+        }
+
+        #SearchBox {
+            display: none !important;
+        }
+
+        #contentBox {
+            margin-left: 10px;
+            margin-right: 0px;
+        }
+
         .hiddencol {
             display: none;
+        }
+
+        .dataTables_length {
+            padding-bottom: 4px;
         }
     </style>
 </head>
@@ -42,117 +78,38 @@
     <div id="ctl00_PlaceHolderMain_updateProgress" style="display:none;">
 
         <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
-            <img id="imgUpdateProgress" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/loader.gif" alt="Loading ..." title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px"
-            />
+            <img id="imgUpdateProgress" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/images/loader.gif" alt="Loading ..."
+                title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px" />
         </div>
 
     </div>
     <div id="ctl00_PlaceHolderMain_updpnlPage">
+        <p>
+            <h3 class="subtitle">Select Project</h3>
+        </p>
+        <p>
+            <span id="lblMsg" style="color:Red;"></span>
+        </p>
+        <div>
+            <table class="griddata tablearea" cellspacing="0" id="grvProjects" style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th scope="col" width="10%">
+                            <input name="chkAll" class="parentgrvProjects" type="checkbox" id="chkAll" />
+                        </th>
+                        <th width="30%" scope="col">Title</th>
+                        <th class="hiddencol" scope="col">ID</th>
+                        <th width="30%" scope="col">State</th>
+                        <th width="30%" scope="col">City</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div>
+            <input type="button" name="btnPublish" value="Publish" onclick="btnPublish_Click();" id="btnPublish" class="btn-blue" />
+            <input type="button" name="btnCancel" value="CANCEL" id="btnCancel" onclick="ClosePopup(0)" class="btn-blue" />
+        </div>
 
-        <table class="tablearea">
-            <tr>
-                <td>
-                    <h3 class="subtitle">Select Project</h3>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table class="tablearea">
-                        <tr>
-                            <td>
-                                <div>
-                                    <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvProjects" style="width:100%;border-collapse:collapse;">
-                                        <tr>
-                                            <th scope="col">
-                                                <input name="ctl00$PlaceHolderMain$grvProjects$ctl01$chkAll" type="checkbox" id="ctl00_PlaceHolderMain_grvProjects_ctl01_chkAll"
-                                                    onclick="javascript: SelectAllCheckboxes(this);" />
-                                            </th>
-                                            <th scope="col">Title</th>
-                                            <th class="hiddencol" scope="col">ID</th>
-                                            <th scope="col">State</th>
-                                            <th scope="col">City</th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl02_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl02$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Aurora</td>
-                                            <td class="hiddencol">1</td>
-                                            <td>Maharashtra</td>
-                                            <td>Worli</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl03_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl03$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Centurion</td>
-                                            <td class="hiddencol">18</td>
-                                            <td>Maharashtra</td>
-                                            <td>Worli</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl04_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl04$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Century Bhavan</td>
-                                            <td class="hiddencol">19</td>
-                                            <td>Maharashtra</td>
-                                            <td>Worli</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl05_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl05$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Century Mills</td>
-                                            <td class="hiddencol">21</td>
-                                            <td>Maharashtra</td>
-                                            <td>Worli</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl06_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl06$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Kamba</td>
-                                            <td class="hiddencol">23</td>
-                                            <td>Maharashtra</td>
-                                            <td>Kalyan</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input id="ctl00_PlaceHolderMain_grvProjects_ctl07_chkProjects" type="checkbox" name="ctl00$PlaceHolderMain$grvProjects$ctl07$chkProjects"
-                                                />
-                                            </td>
-                                            <td>Shahad</td>
-                                            <td class="hiddencol">22</td>
-                                            <td>Maharashtra</td>
-                                            <td>Kalyan</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnPublish" value="Publish" onclick="return confirm(&#39;This action will send the document to the DMS storage and also save the document on the Customer&#39;s portal. As per policy, you need to take a print out of this document and send the same to the customer as a hard copy. Do you wish to proceed?&#39;);"
-                                    id="ctl00_PlaceHolderMain_btnPublish" class="btn-blue" />
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnCancel" value="CANCEL" id="ctl00_PlaceHolderMain_btnCancel" class="btn-blue"
-                                />
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
 
     </div>
 </body>

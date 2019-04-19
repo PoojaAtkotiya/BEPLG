@@ -238,7 +238,7 @@ function click_btnGenerate() {
         letter.Approver4 = '';
         letter.FinalApprover = '';
         letter.FinalSignatory = '';
-        letter.ApprovalStatus = null;
+        letter.ApprovalStatus = DocApprovalStatus.NotProcessed;
         letter.Comments = '';
         letter.GeneratedDate = new Date();
         letter.PublishedDate = new Date();
@@ -258,7 +258,7 @@ function click_btnGenerate() {
         letter.LetterURL = '';
         letter.isDynamic = false;
         letter.PreparedBy = '';
-        letter.Messages = [];
+        letter.Messages = null;
         letter.ApproverDetails = '';
 
         letters.push(letter);
@@ -277,25 +277,25 @@ function click_btnGenerate() {
 }
 
 function GenerateLetters(letters, isAdmin) {
-
-    var url = "https://generatedocuments.azurewebsites.net/api/GenerateDocuments"
-    AjaxCall(
-        {
-            url: url,
-            httpmethod: 'POST',
-            async: false,
-            postData: JSON.stringify(letters),
-            headers:
-                {
-                    "Accept": "application/json;odata=verbose",
-                    "Content-Type": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
-                },
-            sucesscallbackfunction: function (data) {
-                letters = data;
-            }
-        });
-
+    if (IsNullOrUndefined(letters.Messages)) {
+        var url = "https://generatedocuments.azurewebsites.net/api/GenerateDocuments"
+        AjaxCall(
+            {
+                url: url,
+                httpmethod: 'POST',
+                async: false,
+                postData: JSON.stringify(letters),
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                    },
+                sucesscallbackfunction: function (data) {
+                    letters = data;
+                }
+            });
+    }
     return letters;
 }
 
@@ -304,7 +304,6 @@ function SetApproverdata(letter) {
     if (letter.ApprovalWorkflow) {
         ////Check for Approver 1
         if (!IsNullOrUndefined(letter.Approver1) && !IsStrNullOrEmpty(letter.Approver1)) {
-            debugger
             if (dicapprovers.hasOwnProperty(letter.Approver1)) //DoesUserExist(dicapprovers[letter.Approver1] ---> Pending
             {
                 letter.ApproverDetails = dicapprovers[letter.Approver1];
@@ -355,6 +354,20 @@ function SetApproverdata(letter) {
                 letter.Approver4 = dicapprovers[letter.Approver4];
                 letter.TotalApprovers = 4;
 
+            }
+            else {
+                if (letter.Messages == null)
+                    letter.Messages = [];
+                //letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver4), ErrorType = ErrorType.Error });
+            }
+        }
+
+        ////Check for FinalSignatory
+        if (!IsNullOrUndefined(letter.FinalSignatory) && !IsStrNullOrEmpty(letter.FinalSignatory)) {
+            if (dicapprovers.ContainsKey(letter.FinalSignatory))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
+            {
+                letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.FinalSignatory];
+                letter.FinalSignatory = dicapprovers[letter.FinalSignatory];
             }
             else {
                 if (letter.Messages == null)

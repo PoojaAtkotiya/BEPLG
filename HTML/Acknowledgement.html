@@ -61,7 +61,8 @@
 
             // Set Approvers Email ID
             letters.forEach(letter => {
-                if (letter.Messages == null) {
+                if (letter.Messages.length == 0) {
+                    letter.Messages = null;
                     SetApproverdata(letter);
                 }
             });
