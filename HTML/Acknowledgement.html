@@ -61,7 +61,7 @@
 
             // Set Approvers Email ID
             letters.forEach(letter => {
-                if (letter.Messages.length == 0) {
+                if (!IsNullOrUndefined(letter.Messages) && letter.Messages.length == 0) {
                     letter.Messages = null;
                     SetApproverdata(letter);
                 }
@@ -93,15 +93,6 @@
                 gridData.push({ name: "For " + letter.CustomerName + "(" + letter.SalesOrderID + ")", errorMsg: letter.Messages })
             });
 
-
-            "use strict";
-            $("#dtlstAck").jqGrid({
-                colModel: [
-                    { name: "name", label: "" },
-                    { name: "errorMsg", label: "" }
-                ],
-                data: gridData
-            });
 
         });
     </script>

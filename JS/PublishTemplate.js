@@ -1,7 +1,7 @@
 var id;
 var tblProject;
 $(document).ready(function () {
-    id = getUrlParameter("id");
+    id = getUrlParameter("ID");
     if (!IsNullOrUndefined(id) && !IsStrNullOrEmpty(id)) {
         BindProjectGrid();
     }
@@ -23,6 +23,7 @@ function BindProjectGrid() {
 function btnPublish_Click() {
     // return confirm(Messages.PublishDocumentConfirm);
     if (!IsNullOrUndefined(id) && !isNaN(id)) {
+        //ShowWaitDialog();
         //get file from PropertyLettersTemplate library 
         var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERSTEMPLATE + "')/Items(" + id + ")/?$select=File,ID,Process_x0020_NameId&$expand=File";
         var data = GetListData(url);
@@ -45,7 +46,7 @@ function btnPublish_Click() {
                 //update other file properties in project temp library
                 if (!IsNullOrUndefined(newId) && !isNaN(newId)) {
                     var listData = {};
-                    listData["__metadata"] = { type: 'SP.Data.Project TemplatesListItem' }
+                    listData["__metadata"] = { type: 'SP.Data.Project_x0020_TemplatesItem' }
                     listData["DocType_x0020_TitleId"] = templateId;
                     listData["Process_x0020_NameId"] = processNameId;
                     listData["Project_x0020_NameId"] = projectId;
@@ -71,9 +72,8 @@ function btnPublish_Click() {
                 }
 
             });
-
-
         }
+        ClosePopup(1);
     }
 
 }
