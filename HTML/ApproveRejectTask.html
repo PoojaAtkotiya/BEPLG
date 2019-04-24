@@ -42,7 +42,7 @@
             }
         };
         function ShowReport() {
-            var SOD = document.getElementById('ctl00_PlaceHolderMain_lblSalesOrderID').innerHTML;
+            var SOD = document.getElementById('lblSalesOrderID').innerHTML;
             /*var options = {
                 url: '/_layouts/15/PLG.DMS.Reports/SalesRegisterReport.aspx?IsDlg=1&SOD=' + SOD,
                 title: 'Sales Register',
@@ -77,14 +77,14 @@
             <tr>
                 <td style="width: 15%;">&nbsp;</td>
                 <td style="width: 85%;" colspan="3">
-                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
+                    <span id="lblMsg" style="color:Red;"></span>
 
                 </td>
             </tr>
             <tr>
                 <td style="width: 15%;">Title:</td>
                 <td style="width: 85%;" colspan="3">
-                    <span id="ctl00_PlaceHolderMain_lblTitle">111 | Sanjay Patel | ROC request
+                    <span id="lblTitle">111 | Sanjay Patel | ROC request
                         letter to Finance</span></td>
             </tr>
             <tr>
@@ -97,20 +97,19 @@
             <tr>
                 <td style="width: 15%;">Project Name:</td>
                 <td style="width: 35%;">
-                    <span id="ctl00_PlaceHolderMain_lblProjectName">Aurora</span></td>
+                    <span id="lblProjectName"></span></td>
                 <td style="width: 15%;">Process Name:</td>
                 <td style="width: 35%;">
-                    <span id="ctl00_PlaceHolderMain_lblProcessName">Banking & Collections
-                        Process</span></td>
+                    <span id="lblProcessName"></span></td>
             </tr>
             <tr>
                 <td style="width: 15%;">Sales Order ID:</td>
                 <td style="width: 35%;">
-                    <span id="ctl00_PlaceHolderMain_lblSalesOrderID">111</span>
+                    <span id="lblSalesOrderID"></span>
                 </td>
                 <td style="width: 15%;">Customer Name:</td>
                 <td style="width: 35%;">
-                    <span id="ctl00_PlaceHolderMain_lblCustomerName">Sanjay Patel</span></td>
+                    <span id="lblCustomerName"></span></td>
             </tr>
             <tr>
                 <td style="width: 15%;">Action:</td>
@@ -145,11 +144,13 @@
                 <td style="width: 15%;">&nbsp;</td>
                 <td style="width: 85%;" align="right" colspan="3">
                     <input type="submit" name="ctl00$PlaceHolderMain$btnApprove" value="Approve" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnApprove&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
-                        id="ctl00_PlaceHolderMain_btnApprove" class="btn-blue" />
+                        id="btnApprove" class="btn-blue" />
                     <input type="submit" name="ctl00$PlaceHolderMain$btnReject" value="Reject" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnReject&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
-                        id="ctl00_PlaceHolderMain_btnReject" class="btn-blue" />
+                        id="btnReject" class="btn-blue" />
                     <input type="submit" name="ctl00$PlaceHolderMain$btnCancel" value="Back To My Tasks" id="ctl00_PlaceHolderMain_btnCancel"
                         class="btn-blue" />
+                        <input type="submit" name="ctl00$PlaceHolderMain$btnDeleteTask" value="Delete Tasks" id="btnDeleteTask"
+                        class="btn-blue" visible="false" />
 
                 </td>
             </tr>
