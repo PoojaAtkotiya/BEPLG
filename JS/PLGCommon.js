@@ -7,7 +7,7 @@ $(function () {
 function LoadCurrentUser() {
     AjaxCall(
         {
-            url: CommonConstant.SPSITEURL + "/_api/web/currentuser/?$expand=groups",
+            url: CommonConstant.SPSITEURL + "/_api/web/currentuser?$expand=groups",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,

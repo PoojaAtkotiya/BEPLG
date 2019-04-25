@@ -23,21 +23,21 @@ Object.freeze(SPGroups);
 
 const PopupURL = {
     AcknowledgeMessage: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/Acknowledgement.aspx?IsDlg=1",
-    PublishDocument: "/_layouts/15/PLG.DMS/PublishDocument.aspx?IsDlg=1",
-    SendForApproval: "/_layouts/15/PLG.DMS/SendForApproval.aspx?IsDlg=1",
-    SendEmailBody: "/_layouts/15/PLG.DMS/SendEmailBody.aspx?IsDlg=1",
-    SendEmailWithAttachment: "/_layouts/15/PLG.DMS/SendEmailWithAttachment.aspx?IsDlg=1",
+    PublishDocument: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/PublishDocument.aspx?IsDlg=1",
+    SendForApproval: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/SendForApproval.aspx?IsDlg=1",
+    SendEmailBody: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/SendEmailBody.aspx?IsDlg=1",
+    SendEmailWithAttachment: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/SendEmailWithAttachment.aspx?IsDlg=1",
     Upload: "/_layouts/15/Upload.aspx?List={0}&RootFolder=",
-    LinkToSalesRegister: "/_layouts/15/PLG.DMS.Reports/SalesRegisterReport.aspx?SOD={0}",
+    LinkToSalesRegister: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/SalesRegisterReport.aspx?SOD={0}",
     EditCustomerDetails: "/Lists/Customers/CustomEdit.aspx?IsDlg=1&ID={0}",
     EditProjectTemplate: "/Project%20Templates/Forms/EditForm.aspx?IsDlg=1&ID={0}",
     EditConstructionUpdate: "/Construction%20Images/Forms/EditForm.aspx?IsDlg=1&ID={0}",
     BravaViewerURL: "http://bomvspstst01.kalpatarugroup.com:8090/BravaViewer/RenderHTML.aspx?fileurl=",
-    ImportExcel: "/_layouts/15/PLG.DMS/ImportFromExcel.aspx?IsDlg=1",
-    MyTask: "/_layouts/15/PLG.DMS/MyTask.aspx",
-    unauthorizedURL: "/_layouts/15/PLG.DMS.Reports/UnAuthorized.aspx",
-    submitRejection: "/_layouts/15/PLG.DMS/SubmitScanDocRejection.aspx?IsDlg=1&ID=",
-    submitAcceptance: "/_layouts/15/PLG.DMS/AcceptAndPublish.aspx?IsDlg=1&ID="
+    ImportExcel: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/ImportFromExcel.aspx?IsDlg=1",
+    MyTask: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/MyTask.aspx",
+    unauthorizedURL: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/UnAuthorized.aspx",
+    submitRejection: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/SubmitScanDocRejection.aspx?IsDlg=1&ID=",
+    submitAcceptance: "https://synoverge.sharepoint.com/sites/PLG_Dev/Pages/AcceptAndPublish.aspx?IsDlg=1&ID="
 }
 Object.freeze(PopupURL);
 
@@ -167,3 +167,5 @@ const Messages = {
     SignedLOINotFound: "Signed Letter of Intent not found for this customer It is recommended that you cancel this letter and upload the signed Letter of Intent & regenerate the document again.",
 }
 Object.freeze(Messages);
+
+

@@ -15,17 +15,23 @@ const ErrorType = {
 Object.freeze(ErrorType);
 
 const TaskStatus = {
-    
+
     Pending: "Pending",
     Approved: "Approved",
     Rejected: "Rejected"
-    
+
 }
 Object.freeze(TaskStatus);
 
-const Messages = {
-    
-    TaskRelatedDocumentDeleted : "This task related document has been deleted hence you can't approver/reject this task.However you can cancel this task."
-    
+
+const ModeOfDispatch = {
+    EmailBody: "Email Body",
+    EmailBodyInternal: "Email Body (Internal)",
+    EmailWithAttachment: "Email With Attachment",
+    EmailWithAttachmentInternal: "Email With Attachment (Internal)",
+    HardCopy: "Hard Copy",
+    EmailFromCustomer: "Email From Customer",
+    OutsideScope: "Outside Scope",
+    PreprintedForm: "Pre-printed Form",
 }
-Object.freeze(Messages);
+Object.freeze(ModeOfDispatch);

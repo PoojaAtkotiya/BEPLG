@@ -161,7 +161,7 @@ function GetApproverList(inputPara) {
     return dicapprovers;
 }
 
-function GetPropertyLetterByID(iD){
+function GetPropertyLetterByID(iD) {
     var letteritem = null;
     try {
         var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + iD + ")";
@@ -174,4 +174,54 @@ function GetPropertyLetterByID(iD){
     }
     return letteritem;
 
+}
+
+function GetNotProcessedLetters(currentUserId, IsAdmin) {
+    try {
+        var url = "";
+        if (IsAdmin) {
+            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/Items?$select=*,Author/Title,File&$expand=Author/Title,File&$orderby=Generated_x0020_Date desc&$filter=Approval_x0020_Status eq 'Not Processed'";
+        } else {
+            url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/Items?$select=*,Author/Title,File&$expand=Author/Title,File&$orderby=Generated_x0020_Date desc&$filter=(Approval_x0020_Status eq 'Not Processed') and (AuthorId eq " + currentUserId + ")";
+        }
+        var data = GetListData(url);
+        return data.d.results;
+    }
+    catch (exception) {
+        console.log(exception);
+        return null;
+    }
+}
+
+function CancelProcess(docRelUrl) {
+    var returnvalue = false;
+    try {
+        var url = _spPageContextInfo.siteAbsoluteUrl + "/_api/web/getfilebyserverrelativeurl('" + docRelUrl + "')"
+        //var url = _spPageContextInfo.webAbsoluteUrl + "_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/items(" + SalesOrderID + ")";
+        AjaxCall(
+            {
+                url: url,
+                httpmethod: 'POST',
+                async: false,
+                headers:
+                    {
+                        "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "X-HTTP-Method": "DELETE",
+                        "If-Match": "*"
+                    },
+                sucesscallbackfunction: function (data) {
+                    returnvalue = true;
+                },
+                errorcallbackfunction: function (data) {
+                    returnvalue = false;
+                }
+            });
+    }
+    catch (ex) {
+        console.log(ex);
+        returnvalue = false;
+    }
+    return returnvalue;
 }
