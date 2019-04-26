@@ -201,3 +201,24 @@ function CopyFile(fromPath, toPath) {
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
 }
+
+String.format = function () {
+    // The string containing the format items (e.g. "{0}")
+    // will and always has to be the first argument.
+    var theString = arguments[0];
+
+    // start with the second argument (i = 1)
+    for (var i = 1; i < arguments.length; i++) {
+        // "gm" = RegEx options for Global search (more than one instance)
+        // and for Multiline search
+        var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+        theString = theString.replace(regEx, arguments[i]);
+    }
+    return theString;
+}
+
+function GetListProperties(listName) {
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + listName + "')";
+    var data = GetListData(url);
+    return data.d;
+}

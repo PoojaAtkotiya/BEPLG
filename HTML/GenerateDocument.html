@@ -64,7 +64,7 @@
 
         function CloseCallback(dialogResult, returnValue) {
             if (returnValue == "1") {
-                document.getElementById("ctl00_PlaceHolderMain_btntemp").click();
+                document.getElementById("btntemp").click();
             }
             else if (returnValue.indexOf('IsDlg') != -1) {
                 OpenSPModelDialog(returnValue);

@@ -901,3 +901,11 @@ h2, h3, .ms-h2, .ms-h3, .ms-headerFont {
 .ms-core-menu-label {
   color: #666 !important;
 }
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}

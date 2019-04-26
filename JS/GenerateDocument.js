@@ -5,11 +5,6 @@ var G_GENERATEDLETTERS;
 var tblGenLett;
 $(document).ready(function () {
     BindSearchParameter();
-    $('#myTable').on('click', '.', function () {
-        var id = tblGenLett.row(this).id();
-
-        alert('Clicked row id ' + id);
-    });
 });
 
 function BindSearchParameter() {
@@ -447,7 +442,7 @@ function lnkProcess_click(id) {
             var letter = letters.filter(l => l.ID == id);
             if (!IsNullOrUndefined(letter) && letter.length > 0) {
                 if (letter[0]["Approval_x0020_Workflow"]) {
-                    OpenSPModelDialog(PopupURL.SendForApproval + "&ID=" + id);
+                    OpenSPModelDialog(PopupURL.SendForApproval + "&ID1=" + id);
                 }
                 else {
                     //Email Body or internal

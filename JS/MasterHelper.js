@@ -161,15 +161,14 @@ function GetApproverList(inputPara) {
     return dicapprovers;
 }
 
-function GetPropertyLetterByID(iD) {
+function GetPropertyLetterByID(id) {
     var letteritem = null;
     try {
-        var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + iD + ")";
-        GetMasterData(url, function (items) {
-            letteritem = items;
-        });
+        //  var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + iD + ")?$select=*,File&$expand=File";
+        var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + id + ")?$select=*,File,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title&$expand=File,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title";
+        var data = GetListData(url);
+        letteritem = data.d;
     }
-
     catch (ex) {
     }
     return letteritem;
@@ -225,3 +224,16 @@ function CancelProcess(docRelUrl) {
     }
     return returnvalue;
 }
+
+// function GetPropertyLetterByID(id) {
+//     var item;
+//     try {
+//         var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + id + ")";
+//         var data = GetListData(url);
+//         item = data.d;
+//     }
+//     catch (ex) {
+//         // ApplicationLog.LogError(ex);
+//     }
+//     return item;
+// }
