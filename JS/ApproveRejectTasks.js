@@ -46,5 +46,7 @@ function DisableApproveRejecteButtons() {
 }
 
 function btnApprove_click(){
-  
+  $("#btnReject").enabled = false;
+  $("#btnApprove").enabled = false;
+
 }
