@@ -62,10 +62,6 @@ function btnSendforApproval_Click() {
             letter["Approver_1Id"] = 12;
             if (!IsNullOrUndefined(letter) && !IsNullOrUndefined(letter["Approver_1Id"])) {
                 if (letter["Approval_x0020_Status"] == "Not Processed") {
-                    //SPList spTaskList = spWeb.Lists.TryGetList(Constants.Lists.Tasks);
-                    //SPListItem newTask = spTaskList.Items.Add();
-
-                    debugger
                     var newTask = {};
                     newTask["__metadata"] = {
                         "type": GetItemTypeForListName(ListNames.TASKS)
@@ -100,7 +96,6 @@ function btnSendforApproval_Click() {
                                 "X-HTTP-Method": "POST"
                             },
                         sucesscallbackfunction: function (data) {
-                            debugger
                             var letteritem = {};
                             letteritem["__metadata"] = {
                                 "type": "SP.Data.Property_x0020_LettersItem"
@@ -135,6 +130,7 @@ function btnSendforApproval_Click() {
                         }
                     });
 
+                    ////----------- PENDING ------------------------------------
                     // SPFieldUserValue authorUserValue = new SPFieldUserValue(spWeb, letter[SPBuiltInFieldId.Author].ToString());
                     // SPUser AuthorSPUser = authorUserValue.User;
                     // SPFieldUserValue toUserValue = new SPFieldUserValue(spWeb, letter["Approver_1"].ToString());

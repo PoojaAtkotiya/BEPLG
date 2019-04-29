@@ -76,6 +76,7 @@ function IsGroupMember(groupName) {
             isAuthorized = true;
         }
     }
+    return isAuthorized;
 }
 
 function BindDDL(result, elementId) {
@@ -152,6 +153,31 @@ function GetUserEmailbyUserID(userid) {
     return userEmail;
 }
 
+function GetUserNamebyUserID(userid) {
+    var userName = "";
+    if (!IsNullOrUndefined(userid)) {
+        // if (!isNaN(userid)) {
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        headers = {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "X-HTTP-Method": "POST"
+        };
+
+        AjaxCall(
+            {
+                url: url,
+                httpmethod: 'GET',
+                calldatatype: 'JSON',
+                async: false,
+                headers: headers,
+                sucesscallbackfunction: function (data) { userName = data.d.Title; }
+            });
+    }
+    return userName;
+}
+
 function ensureUser(webUrl, loginName) {
     var payload = { 'logonName': loginName };
     $.ajax({
@@ -221,4 +247,33 @@ function GetListProperties(listName) {
     var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + listName + "')";
     var data = GetListData(url);
     return data.d;
+}
+
+function MergeCAMLConditions(conditions, type) {
+    try {
+        // No conditions => empty response
+        if (conditions.length == 0) return "";
+
+        // Initialize temporary variables
+        var typeStart = (type == MergeType.AND ? "<And>" : "<Or>");
+        var typeEnd = (type == MergeType.AND ? "</And>" : "</Or>");
+
+        // Build hierarchical structure
+        while (conditions.length >= 2) {
+            var complexConditions = [];
+
+            for (var i = 0; i < conditions.length; i += 2) {
+                if (conditions.length == i + 1) // Only one condition left
+                    complexConditions.push(conditions[i]);
+                else // Two condotions - merge
+                    complexConditions.push(typeStart + conditions[i] + conditions[i + 1] + typeEnd);
+            }
+
+            conditions = complexConditions;
+        }
+    }
+    catch (ex) {
+        //ULSLogService.DisplayError(this.GetType().Name + "." + MethodBase.GetCurrentMethod().Name, ex);
+    }
+    return conditions[0];
 }
