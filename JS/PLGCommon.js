@@ -7,7 +7,7 @@ $(function () {
 function LoadCurrentUser() {
     AjaxCall(
         {
-            url: CommonConstant.SPSITEURL + "/_api/web/currentuser/?$expand=groups",
+            url: CommonConstant.SPSITEURL + "/_api/web/currentuser?$expand=groups",
             httpmethod: 'GET',
             calldatatype: 'JSON',
             async: false,
@@ -169,7 +169,7 @@ function ensureUser(webUrl, loginName) {
 }
 
 function getUrlParameter(name) {
-    name = name.toLowerCase().replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
@@ -200,4 +200,25 @@ function CopyFile(fromPath, toPath) {
 
 function GetItemTypeForListName(name) {
     return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+}
+
+String.format = function () {
+    // The string containing the format items (e.g. "{0}")
+    // will and always has to be the first argument.
+    var theString = arguments[0];
+
+    // start with the second argument (i = 1)
+    for (var i = 1; i < arguments.length; i++) {
+        // "gm" = RegEx options for Global search (more than one instance)
+        // and for Multiline search
+        var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+        theString = theString.replace(regEx, arguments[i]);
+    }
+    return theString;
+}
+
+function GetListProperties(listName) {
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + listName + "')";
+    var data = GetListData(url);
+    return data.d;
 }

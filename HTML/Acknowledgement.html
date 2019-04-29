@@ -18,10 +18,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/jquery.jqgrid.min.js"></script>
-
-
-
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/jquery.jqgrid.min.js"></script> -->
     <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
 
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
@@ -61,7 +58,7 @@
 
             // Set Approvers Email ID
             letters.forEach(letter => {
-                if (letter.Messages.length == 0) {
+                if (IsNullOrUndefined(letter.Messages) || (!IsNullOrUndefined(letter.Messages) && letter.Messages.length == 0)) {
                     letter.Messages = null;
                     SetApproverdata(letter);
                 }
@@ -93,15 +90,6 @@
                 gridData.push({ name: "For " + letter.CustomerName + "(" + letter.SalesOrderID + ")", errorMsg: letter.Messages })
             });
 
-
-            "use strict";
-            $("#dtlstAck").jqGrid({
-                colModel: [
-                    { name: "name", label: "" },
-                    { name: "errorMsg", label: "" }
-                ],
-                data: gridData
-            });
 
         });
     </script>

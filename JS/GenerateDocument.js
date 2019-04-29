@@ -1,6 +1,8 @@
 var AllCustomer;
 var Customer;
 var G_LETTERS;
+var G_GENERATEDLETTERS;
+var tblGenLett;
 $(document).ready(function () {
     BindSearchParameter();
 });
@@ -97,7 +99,29 @@ function BindWing() {
 }
 
 function BindGeneratedLetters() {
+    try {
+        var isAdmin = IsGroupMember(SPGroups.ADMIN);
+        isAdmin = true;
+        var listItems = GetNotProcessedLetters(_spPageContextInfo.userId, isAdmin);
 
+        if (!IsNullOrUndefined(listItems) && listItems.length != 0) {
+            G_GENERATEDLETTERS = listItems;
+            BindGenLettGrid(listItems);
+            if (!isAdmin)
+                $("#btnGenerate").removeAttr("disabled");
+        }
+        else {
+            BindGenLettGrid();
+            if (!isAdmin)
+                btnGenerate.Enabled = true;
+        }
+        if (!isAdmin) {
+            tblGenLett.columns(5).classname = "hiddencol";
+        }
+    } catch (exception) {
+        $('#lblMsg').html(Messages.TechnicalIssueOccurrred);
+        console.log(exception)
+    }
 }
 
 function ddlProject_SelectedIndexChanged(sel) {
@@ -278,7 +302,7 @@ function click_btnGenerate() {
 
 function GenerateLetters(letters, isAdmin) {
     if (IsNullOrUndefined(letters.Messages)) {
-        var url = "https://generatedocuments.azurewebsites.net/api/GenerateDocuments"
+        var url = "https://generatedocuments.azurewebsites.net/api/GenerateLetters?isAdmin=true"
         AjaxCall(
             {
                 url: url,
@@ -287,9 +311,9 @@ function GenerateLetters(letters, isAdmin) {
                 postData: JSON.stringify(letters),
                 headers:
                     {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose",
-                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                        // "Accept": "application/json;odata=verbose",
+                        "Content-Type": "application/json;",
+                        // "X-RequestDigest": $("#__REQUESTDIGEST").val()
                     },
                 sucesscallbackfunction: function (data) {
                     letters = data;
@@ -321,7 +345,7 @@ function SetApproverdata(letter) {
         ////Check for Approver 2
         if (!IsNullOrUndefined(letter.Approver2) && !IsStrNullOrEmpty(letter.Approver2)) {
 
-            if (dicapprovers.indexOf(letter.Approver2)) { // && helper.DoesUserExist(dicapprovers[letter.Approver2])) 
+            if (dicapprovers.hasOwnProperty(letter.Approver2)) { // && helper.DoesUserExist(dicapprovers[letter.Approver2])) 
                 letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver2];
                 letter.Approver2 = dicapprovers[letter.Approver2];
                 letter.TotalApprovers = 2;
@@ -334,7 +358,7 @@ function SetApproverdata(letter) {
         }
         ////Check for Approver 3
         if (!IsNullOrUndefined(letter.Approver3) && !IsStrNullOrEmpty(letter.Approver3)) {
-            if (dicapprovers.ContainsKey(letter.Approver3)) //&& helper.DoesUserExist(dicapprovers[letter.Approver3]))
+            if (dicapprovers.hasOwnProperty(letter.Approver3)) //&& helper.DoesUserExist(dicapprovers[letter.Approver3]))
             {
                 letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver3];
                 letter.Approver3 = dicapprovers[letter.Approver3];
@@ -348,7 +372,7 @@ function SetApproverdata(letter) {
         }
         ////Check for Approver 4
         if (!IsNullOrUndefined(letter.Approver4) && !IsStrNullOrEmpty(letter.Approver4)) {
-            if (dicapprovers.ContainsKey(letter.Approver4))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
+            if (dicapprovers.hasOwnProperty(letter.Approver4))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
             {
                 letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.Approver4];
                 letter.Approver4 = dicapprovers[letter.Approver4];
@@ -364,7 +388,7 @@ function SetApproverdata(letter) {
 
         ////Check for FinalSignatory
         if (!IsNullOrUndefined(letter.FinalSignatory) && !IsStrNullOrEmpty(letter.FinalSignatory)) {
-            if (dicapprovers.ContainsKey(letter.FinalSignatory))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
+            if (dicapprovers.hasOwnProperty(letter.FinalSignatory))//&& helper.DoesUserExist(dicapprovers[letter.Approver4])) 
             {
                 letter.ApproverDetails = letter.ApproverDetails + dicapprovers[letter.FinalSignatory];
                 letter.FinalSignatory = dicapprovers[letter.FinalSignatory];
@@ -375,5 +399,84 @@ function SetApproverdata(letter) {
                 //letter.Messages.Add(new Message() { ErrorMessage = string.Format(Constants.Messages.ApproverNotFound, letter.Approver4), ErrorType = ErrorType.Error });
             }
         }
+    }
+}
+
+function BindGenLettGrid(listItems) {
+    tblGenLett = $('#grvGeneratedDoc').DataTable({
+        "destroy": true,
+        "data": listItems,
+        "columns": [
+            { "data": "File.Name" },
+            { "data": "Sales_x0020_Order_x0020_ID" },
+            { "data": "Customer_x0020_Name" },
+            { "data": "Tower_x0020_Name" },
+            { "data": "Wing_x0020_Name" },
+            { "data": "Author.Title" },
+            {
+                "data": null,
+                "className": "center",
+                // "defaultContent": '<a id="grvGeneratedDoc_lnkProcess" class="lnkProcess" href="#">Process</a>',
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    return "<a href='#' onclick='lnkProcess_click(" + row.ID + ")'>Process</a>";
+                }
+            },
+            {
+                "data": null,
+                "className": "center",
+                //"defaultContent": '<a id="grvGeneratedDoc_lnkCancel" class="lnkCancel" href="#">Cancel</a>',
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    return "<a onclick='lnkCancel_Click(\"" + row.File.ServerRelativeUrl + "\")'>Cancel</a>";
+                }
+            }
+        ]
+    });
+}
+
+function lnkProcess_click(id) {
+    try {
+        var letters = G_GENERATEDLETTERS;
+        if (!IsNullOrUndefined(letters) && letters.length != 0) {
+            var letter = letters.filter(l => l.ID == id);
+            if (!IsNullOrUndefined(letter) && letter.length > 0) {
+                if (letter[0]["Approval_x0020_Workflow"]) {
+                    OpenSPModelDialog(PopupURL.SendForApproval + "&ID1=" + id);
+                }
+                else {
+                    //Email Body or internal
+                    if (letter[0]["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailBody || letter[0]["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailBodyInternal) {
+                        OpenSPModelDialog(PopupURL.SendEmailBody + "&ID=" + id);
+                    }
+                    //Email With Attachment or Internal
+                    else if (letter[0]["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailWithAttachment || letter[0]["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailWithAttachmentInternal) {
+                        OpenSPModelDialog(PopupURL.SendEmailWithAttachment + "&ID=" + id);
+                    }
+                    ////Hard Copy
+                    else if (letter[0]["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.HardCopy) {
+                        OpenSPModelDialog(PopupURL.PublishDocument + "&ID=" + id);
+                    }
+
+                }
+            }
+        }
+    }
+    catch (ex) {
+        $('#lblMsg').html(Messages.TechnicalIssueOccurrred);
+        console.log(ex);
+    }
+}
+
+function lnkCancel_Click(docRelUrl) {
+    try {
+        if (CancelProcess(docRelUrl)) {
+            ShowAlert(Messages.ProcessCancel);
+        }
+        BindGeneratedLetters();
+    }
+    catch (ex) {
+        $('#lblMsg').html(Messages.TechnicalIssueOccurrred);
+        console.log(ex);
     }
 }

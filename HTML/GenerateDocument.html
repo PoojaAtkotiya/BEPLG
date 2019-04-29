@@ -1,18 +1,26 @@
 <html dir="ltr" lang="en-US">
 
 <head>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
     />
     <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
     />
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
     <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+    />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
 
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
@@ -34,6 +42,10 @@
         #SearchBox {
             display: none !important;
         }
+
+        .hiddencol {
+            display: none;
+        }
     </style>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
     <script type="text/javascript">
@@ -52,7 +64,7 @@
 
         function CloseCallback(dialogResult, returnValue) {
             if (returnValue == "1") {
-                document.getElementById("ctl00_PlaceHolderMain_btntemp").click();
+                document.getElementById("btntemp").click();
             }
             else if (returnValue.indexOf('IsDlg') != -1) {
                 OpenSPModelDialog(returnValue);
@@ -124,153 +136,136 @@
 
     </div>
     <div id="updpnlGenerateDoc">
-        <table class="tablearea">
-            <tr>
-                <td>
-                    <h3 class="subtitle">Document Selection</h3>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table class="tablearea">
+        <p>
+            <h3 class="subtitle">Document Selection</h3>
+        </p>
+        <p>
+            <span id="lblMsg" style="color:Red;"></span>
+        </p>
+        <p>
+            <b>Note: </b>
+            <span style="color: #ff0000">*</span> Fields are mandatory</td>
+        </p>
+        <div class="row">
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Project:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProject" onchange="ddlProject_SelectedIndexChanged(this);" id="ddlProject" class="custom-select" cType="combo"
+                    valuebindingcolumn="Id" textbindingcolumn="Title">
+                </select>
+                <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Process:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProcess" id="ddlProcess" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="Title"
+                    onchange="ddlProcess_SelectedIndexChanged">
+                </select>
+                <span id="rqfvddlProcess" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Document Type:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlDocType" id="ddlDocType" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="DocType_x0020_Title"
+                    onchange="ddlDocType_SelectedIndexChanged">
+                </select>
+                <span id="rqfvddlDocType" style="color:Red;display:none;">Required!</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">Tower Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlTower" id="ddlTower" class="custom-select">
+                </select>
+            </div>
+            <div class="col-sm-1">Wing Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlWing" id="ddlWing" class="custom-select">
+                </select>
+            </div>
+            <div class="col-sm-1">Sales Order ID:</div>
+            <div class="col-sm-3">
+                <input name="txtSalesOrderID" type="text" id="txtSalesOrderID" class="custom-inputText" />
+                <input type="button" name="btnImport" value="Multiple" onclick="javascript:__doPostBack('ctl00$PlaceHolderMain$btnImport','')"
+                    id="btnImport" class="btn-blue" />
+                <span id="rgconte" style="color:Red;display:none;">only Number and , allow</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">Customer Name:</div>
+            <div class="col-sm-3">
+                <input name="txtCustomerName" type="text" id="txtCustomerName" class="custom-inputText" />
+            </div>
+            <div class="col-sm-1">
+                <span id="lblispdf">Generate PDF:</span>
+            </div>
+            <div class="col-sm-3">
+                <input id="chkIsPdf" type="checkbox" name="chkIsPdf" />
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3">
+                <input type="button" name="btnSearch" value="Search" id="btnSearch" class="btn-blue" onclick="btnSearch_Click();" />
+                <input type="button" name="btnReset" value="Reset" id="btnReset" class="btn-blue" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="griddata tablearea" cellspacing="0" id="grvDocSelection" style="width:100%;border-collapse:collapse;">
+                    <thead>
                         <tr>
-                            <td colspan="6">
-                                <span id="lblMsg" style="color:Red;"></span>
-                            </td>
-
+                            <th scope="col" width="8%">
+                                <input type="checkbox" value="a" class="parentgrvDocChk" />
+                            </th>
+                            <th scope="col" width="23%">Customer Name</th>
+                            <th scope="col" width="23%">Sales Order ID</th>
+                            <th scope="col" width="23%">Tower</th>
+                            <th scope="col" width="23%">Wing</th>
                         </tr>
-                        <tr>
-                            <td colspan="6">
-                                <b>Note: </b>
-                                <span style="color: #ff0000">*</span> Fields are mandatory</td>
-                        </tr>
-                        <tr>
-                            <td width="10%">
-                                <span style="color: #ff0000">*</span> Project:</td>
-                            <td width="21%">
-                                <select name="ddlProject" onchange="ddlProject_SelectedIndexChanged(this);" id="ddlProject" class="custom-select" cType="combo"
-                                    valuebindingcolumn="Id" textbindingcolumn="Title">
-                                </select>
-                                <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span>
-                            </td>
-                            <td width="10%">
-                                <span style="color: #ff0000">*</span> Process:</td>
-                            <td width="21%">
-                                <select name="ddlProcess" id="ddlProcess" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="Title"
-                                    onchange="ddlProcess_SelectedIndexChanged">
-                                </select>
-                                <span id="rqfvddlProcess" style="color:Red;display:none;">Required!</span>
-                            </td>
-                            <td width="10%">
-                                <span style="color: #ff0000">*</span> Document Type:</td>
-                            <td width="24%">
-                                <select name="ddlDocType" id="ddlDocType" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="DocType_x0020_Title"
-                                    onchange="ddlDocType_SelectedIndexChanged">
-                                </select>
-                                <span id="rqfvddlDocType" style="color:Red;display:none;">Required!</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Tower Name:</td>
-                            <td>
-                                <select name="ddlTower" id="ddlTower" class="custom-select">
-                                </select>
-                            </td>
-                            <td>Wing Name:</td>
-                            <td>
-                                <select name="ddlWing" id="ddlWing" class="custom-select">
-                                </select>
-                            </td>
-                            <td>Sales Order ID:</td>
-                            <td>
-                                <input name="txtSalesOrderID" type="text" id="txtSalesOrderID" style="width:200px;" />
-                                <input type="button" name="btnImport" value="Multiple" onclick="javascript:__doPostBack('ctl00$PlaceHolderMain$btnImport','')"
-                                    id="btnImport" class="btn-blue" />
-                                <span id="rgconte" style="color:Red;display:none;">only Number and , allow</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Customer Name:</td>
-                            <td>
-                                <input name="txtCustomerName" type="text" id="txtCustomerName" style="width:200px;" />
-                            </td>
-                            <td>
-                                <span id="lblispdf">Generate PDF:</span>
-                            </td>
-                            <td>
-                                <input id="chkIsPdf" type="checkbox" name="chkIsPdf" />
-                            </td>
-                            <td></td>
-                            <td>
-                                <input type="button" name="btnSearch" value="Search" id="btnSearch" class="btn-blue" onclick="btnSearch_Click();" />
-                                <input type="button" name="btnReset" value="Reset" id="btnReset" class="btn-blue" />
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <table class="griddata" cellspacing="0" id="grvDocSelection" style="width:100%;border-collapse:collapse;">
-                            <tr>
-                                <td>
-                                    <tr>
-                                        <th scope="col">
-                                            <input type="checkbox" value="a" class="parentgrvDocChk" />
-                                        </th>
-                                        <th scope="col">Customer Name</th>
-                                        <th scope="col">Sales Order ID</th>
-                                        <th scope="col">Tower</th>
-                                        <th scope="col">Wing</th>
-                                    </tr>
-                                    <tbody id="tbody_grvDocSelection">
-                                    </tbody>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
-                    <input type="button" name="btnGenerate" value="Generate" id="btnGenerate" class="btn-blue" style="float: left;" onclick="click_btnGenerate()"
-                    />
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    </thead>
+                    <tbody id="tbody_grvDocSelection">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="button" name="btnGenerate" value="Generate" id="btnGenerate" class="btn-blue" style="float: left;" onclick="click_btnGenerate()"
+                />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p>
                     <h3 class="subtitle">Generated Documents</h3>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <table class="griddata" cellspacing="0" id="grvGeneratedDoc" style="width:100%;border-collapse:collapse;">
-                            <tr>
-                                <td>
-                                    <tr>
-                                        <th scope="col">Document Name</th>
-                                        <th scope="col">Sales Order ID</th>
-                                        <th scope="col">Customer Name</th>
-                                        <th scope="col">Tower Name</th>
-                                        <th scope="col">Wing Name</th>
+                </p>
+            </div>
+        </div>
 
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="no_record">No Record Found</td>
-                                    </tr>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="griddata tablearea" cellspacing="0" id="grvGeneratedDoc" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="35">Document Name</th>
+                            <th scope="col" width="10%">Sales Order ID</th>
+                            <th scope="col" width="15%">Customer Name</th>
+                            <th scope="col" width="10%">Tower Name</th>
+                            <th scope="col" width="10%">Wing Name</th>
+                            <th scope="col" width="10%">Generated By</th>
+                            <th scope="col" width="5%"></th>
+                            <th scope="col" width="5%"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
 
-
-        </table>
-        <input type="submit" name="btntemp" value="" id="btntemp" style="display: none;" />
-
+        <div class="row">
+            <input type="button" name="btntemp" value="" id="btntemp" style="display: none;" />
+        </div>
 
     </div>
 </body>
