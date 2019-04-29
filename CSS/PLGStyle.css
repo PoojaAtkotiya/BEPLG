@@ -909,3 +909,7 @@ h2, h3, .ms-h2, .ms-h3, .ms-headerFont {
 .hidden {
   display: none;
 }
+
+.top-padding {
+  padding-top: 5px;
+}

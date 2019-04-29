@@ -35,3 +35,6 @@ const ModeOfDispatch = {
     PreprintedForm: "Pre-printed Form",
 }
 Object.freeze(ModeOfDispatch);
+
+const MergeType = { OR: "Or", AND: "And" }
+Object.freeze(MergeType);
