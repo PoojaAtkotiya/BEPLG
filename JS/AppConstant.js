@@ -1,5 +1,7 @@
 const CommonConstant = {
-    SPSITEURL: _spPageContextInfo.webAbsoluteUrl
+    SPSITEURL: _spPageContextInfo.webAbsoluteUrl,
+
+    SENDMAILURL: "https://prod-09.centralindia.logic.azure.com:443/workflows/8aeead178a154d8da70a8344b8604418/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-jHysFnNA-LQM8m1TSJRiiGVycP6ICetWJPh-OLuRHQ"
 }
 Object.freeze(CommonConstant);
 
@@ -12,11 +14,8 @@ const ListNames = {
     POLICYTYPES: "Policy Types",
     PROCESSTYPES: "Process Types",
     PROPERTYLETTERSTEMPLATE: "Property Letter Templates",
-<<<<<<< HEAD
-    ANNEXURES : "Annexures"
-=======
-    TASKS : "Tasks"
->>>>>>> 806f580b38de1f47a6c40454e0cb4f3aae67ab15
+    ANNEXURES: "Annexures",
+    TASKS: "Tasks"
 
 }
 Object.freeze(ListNames);

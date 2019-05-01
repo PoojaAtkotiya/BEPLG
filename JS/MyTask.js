@@ -184,7 +184,7 @@ function BindTasksGridME() {
 
     var viewXml = "<View>" + "<Query>" + whereClause + "</Query>" + "</View>";
 
-    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.TASKS + "')/GetItems(query=@v1)?" + "@v1={\"ViewXml\":\"" + viewXml + "\"}";
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/GetItems(query=@v1)?" + "@v1={\"ViewXml\":\"" + viewXml + "\"}";
     var data = GetListData(url, "POST");
     var tasks = data.d.results;
     if (!IsNullOrUndefined(tasks) && tasks.length > 0) {
@@ -327,21 +327,20 @@ function BindMyPendingTasks(tasks) {
 }
 
 function grvPendingApprovalME_lnkDelete_click(id) {
+    debugger
     var letterDetails = GetPropertyLetterByID(Number(id));
     if (!IsNullOrUndefined(letterDetails)) {
-
-        // if (CancelProcess(Number(id))) {
-        //     WCFServiceHelper servicehelper = new WCFServiceHelper();
-        //     SPFieldLookupValue project = new SPFieldLookupValue(letterDetails["Project_x0020_Name"].ToString());
-        //     SPFieldLookupValue docType = new SPFieldLookupValue(letterDetails["DocType_x0020_Title"].ToString());
-        //     Dictionary < string, string > userDetails = servicehelper.GetEmailID(project.LookupValue, lnkdelete.CommandArgument, docType.LookupValue);
-        //     if (helper.SendDeleteNotification(letterDetails, userDetails))
-        //         ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('" + Constants.Messages.ProcessDelete + "');", true);
-        // }
-        // BindTasksGridME();
+        if (CancelProcess(letterDetails.File.ServerRelativeUrl)) {
+            var project = letterDetails["Project_x0020_Name"].Title;
+            var docType = letterDetails["DocType_x0020_Title"].DocType_x0020_Title;
+            var userDetails = GetEmailID(project, id, docType);
+            if (SendDeleteNotification(letterDetails, userDetails))
+                ShowAlert(Messages.ProcessDelete);
+        }
+        BindTasksGridME();
     }
     else {
-        //ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('Not able to find specified letter');", true);
+        ShowAlert('Not able to find specified letter');
     }
 }
 
