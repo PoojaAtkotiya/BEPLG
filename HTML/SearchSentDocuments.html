@@ -1,16 +1,31 @@
 <html dir="ltr" lang="en-US">
 
 <head>
-    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
-    />
-    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css" />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css" />
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/CustomerTest.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/SearchSentDocuments.js"></script>
 
     <style type="text/css">
         #sideNavBox {
@@ -20,6 +35,14 @@
         #contentBox {
             margin-left: 10px;
             margin-right: 0px;
+        }
+
+        #SearchBox {
+            display: none !important;
+        }
+
+        .hiddencol {
+            display: none;
         }
     </style>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
@@ -44,256 +67,101 @@
         </div>
 
     </div>
-    <div id="ctl00_PlaceHolderMain_updpnlPage">
+    <div id="updpnlPage">
 
         <input name="ctl00$PlaceHolderMain$hdnDeleteID" type="hidden" id="ctl00_PlaceHolderMain_hdnDeleteID" />
-        <table class="tablearea" order="0" width="100%">
-            <tr>
-                <td width="100%">
-                    <table class="tablearea" style="width: 100% !important;" border="0">
-                        <tr>
-                            <td colspan="4">
-                                <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <b>Note:</b>
-                                <span style="color: #ff0000">*</span> Fields are mandatory</td>
-
-                        </tr>
-                        <tr>
-                            <td width="20%">
-                                <span style="color: #ff0000">*</span> Project:</td>
-                            <td width="30%">
-                                <select name="ctl00$PlaceHolderMain$ddlProject" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlProject\',\'\')', 0)"
-                                    id="ctl00_PlaceHolderMain_ddlProject" class="custom-select">
-                                    <option selected="selected" value="0">---Select Project---</option>
-
-                                </select>
-                                <span id="ctl00_PlaceHolderMain_rqfvddlProject" style="color:Red;visibility:hidden;">Required!</span>
-                            </td>
-
-                            <td width="20%">Process:</td>
-                            <td width="30%">
-                                <select name="ctl00$PlaceHolderMain$ddlProcess" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlProcess\',\'\')', 0)"
-                                    id="ctl00_PlaceHolderMain_ddlProcess" class="custom-select">
-                                    <option selected="selected" value="0">---Select Process---</option>
-                                    <option value="3">Banking &amp; Collections Process</option>
-                                    <option value="6">Cancellation Process</option>
-                                    <option value="12">Deed of rectification</option>
-                                    <option value="16">Emploeyment</option>
-                                    <option value="13">Flat Modification Process</option>
-                                    <option value="17">Legal</option>
-                                    <option value="2">LOI and Registration Process</option>
-                                    <option value="15">Miscellaneous</option>
-                                    <option value="8">Other documents</option>
-                                    <option value="4">Possession Process</option>
-                                    <option value="5">Post-possession Process</option>
-                                    <option value="18">Quality</option>
-                                    <option value="14">Refund Coverings</option>
-                                    <option value="9">Refund Memos </option>
-                                    <option value="7">Resale Process</option>
-                                    <option value="1">Welcome Process</option>
-
-                                </select>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> Document Type:</td>
-                            <td>
-                                <select name="ctl00$PlaceHolderMain$ddlDocType" id="ctl00_PlaceHolderMain_ddlDocType" class="custom-select">
-                                    <option selected="selected" value="0">---Select Document Type---</option>
-                                    <option value="28">1st Reminder for payments due</option>
-                                    <option value="29">2nd Reminder for payments due</option>
-                                    <option value="98">Accounts clearance</option>
-                                    <option value="66">Additional Parking Allotment Letter</option>
-                                    <option value="18">Agreement for Sale (AFS)</option>
-                                    <option value="82">Application Form (Booking)</option>
-                                    <option value="118">Authority letter</option>
-                                    <option value="60">Cancellation Refund Covering Letter</option>
-                                    <option value="57">Cancellation Refund Memo</option>
-                                    <option value="105">Car Parking checklist</option>
-                                    <option value="119">Cheque bounce covering</option>
-                                    <option value="133">CONSULTING AGREEMENT</option>
-                                    <option value="122">Covering Letter for AFS</option>
-                                    <option value="84">Customer Information Form (CIF)</option>
-                                    <option value="68">Customer request letter - NOC for mortgage</option>
-                                    <option value="78">Customer Satisfaction Form (Booking level)</option>
-                                    <option value="99">Customer Satisfaction Form (Possession level)</option>
-                                    <option value="106">Deed of Cancellation</option>
-                                    <option value="108">Deed of rectification</option>
-                                    <option value="117">Delay possession letter</option>
-                                    <option value="93">Demand letter</option>
-                                    <option value="41">Electric Meter Name Transfer NOC</option>
-                                    <option value="61">Excess Amount Refund covering letter</option>
-                                    <option value="58">Excess Amount Refund Memo</option>
-                                    <option value="45">Final L and L NOC</option>
-                                    <option value="25">Final NOC for transfer of Mortgage bank</option>
-                                    <option value="85">Final Quotation (post booking)</option>
-                                    <option value="64">Final Resale NOC - No Loan</option>
-                                    <option value="126">Final Resale NOC - ongoing Loan</option>
-                                    <option value="56">Final Resale NOC informing of name change</option>
-                                    <option value="49">Final Termination Letter</option>
-                                    <option value="114">Flat modification memo from Estimations Team</option>
-                                    <option value="115">Flat modification memo from Projects team</option>
-                                    <option value="113">Flat modification Request letter from customer</option>
-                                    <option value="97">Flat ready memo</option>
-                                    <option value="86">Index II</option>
-                                    <option value="65">Interest Notice</option>
-                                    <option value="95">Interest Statement</option>
-                                    <option value="62">Interior Deposit Refund Covering letter</option>
-                                    <option value="59">Interior Deposit Refund memo</option>
-                                    <option value="32">Key Handover Memo</option>
-                                    <option value="103">L and L Agreement</option>
-                                    <option value="16">Letter of Intent with OC</option>
-                                    <option value="17">Letter of Intent without OC</option>
-                                    <option value="96">Lien noting letter</option>
-                                    <option value="124">Lien Release Letter</option>
-                                    <option value="101">Memo from Projects Team for release of Interior Deposit Refund</option>
-                                    <option value="129">Miscellaneous Scanned</option>
-                                    <option value="67">Modification Rebate Memo</option>
-                                    <option value="112">MOU for internal Resale</option>
-                                    <option value="26">MVAT Debit Memo to Taxation</option>
-                                    <option value="116">Name change Request letter</option>
-                                    <option value="102">Name plate letter</option>
-                                    <option value="132">NDA</option>
-                                    <option value="92">No Dues certificate</option>
-                                    <option value="23">NOC for Mortgage - other banks</option>
-                                    <option value="22">NOC for Mortgage - SBI</option>
-                                    <option value="42">Ownership Confirmation letter</option>
-                                    <option value="90">Pari Pasu NOC for HDFC Bank</option>
-                                    <option value="91">Pari Pasu NOC for HDFC Ltd</option>
-                                    <option value="46">Parking allotment Letter</option>
-                                    <option value="134">PHARMACY SERVICES AGREEMENT</option>
-                                    <option value="104">Police Verification Form</option>
-                                    <option value="31">Possession Demand Letter</option>
-                                    <option value="37">Possession letter for interior work (Non-Resale)</option>
-                                    <option value="38">Possession letter for interior work (Resale)</option>
-                                    <option value="39">Possession Letter with OC (Non-Resale)</option>
-                                    <option value="40">Possession letter With OC (Resale)</option>
-                                    <option value="48">Pre-Termination Notice</option>
-                                    <option value="128">Prov Resale NOC - ongoing Loan</option>
-                                    <option value="44">Provisional L and L NOC</option>
-                                    <option value="24">Provisional NOC for transfer of Mortgage bank</option>
-                                    <option value="51">Provisional Resale NOC</option>
-                                    <option value="135">Quality Agreement</option>
-                                    <option value="63">Rebate against modification covering letter</option>
-                                    <option value="83">Receipts (EM and others)</option>
-                                    <option value="87">Registration Receipt</option>
-                                    <option value="94">Reminder before due date</option>
-                                    <option value="123">Reminder for Stamp Duty and Registration</option>
-                                    <option value="33">Req from Cust for Interior Works (Non-Resale)</option>
-                                    <option value="34">Req from Cust for Interior Works (Resale)</option>
-                                    <option value="107">Request for cancellation and in lieu thereof new earmarking </option>
-                                    <option value="71">Request for Ownership Confirmation Letter (Passport Letter)</option>
-                                    <option value="69">Request for provisional NOC for transfer of Mortgage bank</option>
-                                    <option value="43">Request from Customer for L and L NOC</option>
-                                    <option value="50">Request from transferor and transferee for NOC</option>
-                                    <option value="70">Request letter for Electric meter name transfer NOC</option>
-                                    <option value="100">Request letter for Interior Deposit refund</option>
-                                    <option value="72">Request letter from customer for Provisonal NOC for Mortgage</option>
-                                    <option value="111">Resale AFS post possession (Between buyer and seller)</option>
-                                    <option value="110">Resale AFS prior to possession (Tripartite)</option>
-                                    <option value="52">Resale Agreement covering letter</option>
-                                    <option value="109">Resale Top sheet for signature</option>
-                                    <option value="89">ROC</option>
-                                    <option value="120">ROC request letter to Finance</option>
-                                    <option value="80">Stamp duty letter</option>
-                                    <option value="88">Stamp Duty Receipt</option>
-                                    <option value="81">TDS Letter</option>
-                                    <option value="138">TEST_DOC</option>
-                                    <option value="131">Test_Welcome_Email</option>
-                                    <option value="136">Test1</option>
-                                    <option value="53">Undertaking from Transferor and Transferee</option>
-                                    <option value="35">Undertaking-cum-Indemnity (Non Resale)</option>
-                                    <option value="36">Undertaking-cum-Indemnity (Resale)</option>
-                                    <option value="47">Voluntary Cancellation Letter</option>
-                                    <option value="121">Welcome Email</option>
-
-                                </select>
-
-                            </td>
-                            <td>Wing Name:</td>
-                            <td>
-                                <select name="ctl00$PlaceHolderMain$ddlWing" id="ctl00_PlaceHolderMain_ddlWing" class="custom-select">
-                                    <option selected="selected" value="0">---Select Wing---</option>
-
-                                </select>
-
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Tower Name:</td>
-                            <td>
-                                <select name="ctl00$PlaceHolderMain$ddlTower" id="ctl00_PlaceHolderMain_ddlTower" class="custom-select">
-                                    <option selected="selected" value="0">---Select Tower---</option>
-
-                                </select>
-                            </td>
-                            <td>Customer Name:</td>
-                            <td>
-                                <input name="ctl00$PlaceHolderMain$txtCustomerName" type="text" id="ctl00_PlaceHolderMain_txtCustomerName" style="width:200px;"
-                                />
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <td>Sales Order ID:</td>
-                            <td>
-                                <input name="ctl00$PlaceHolderMain$txtSalesOrderID" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderID" style="width:200px;"
-                                />
-
-                            </td>
-                            <td></td>
-                            <td>
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search Documents" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions('&quot;'ctl00$PlaceHolderMain$btnSearch&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
-                                    id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset" class="btn-blue"
-                                />
-                            </td>
-                        </tr>
-
-                    </table>
-                </td>
-
-            </tr>
-            <tr>
-                <td width="100%">
-                    <div>
-                        <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvPropertyLetter" style="width:100%;border-collapse:collapse;">
-                            <tr>
-                                <td>
-                                    <tr style="width: 100%;">
-
-                                        <th scope="col" width="10%">Name</th>
-                                        <th scope="col" width="10%">Version</th>
-
-                                        <th scope="col" width="10%">Sales Order ID</th>
-                                        <th scope="col" width="15%">Customer Name</th>
-                                        <th scope="col" width="10%">Tower</th>
-                                        <th scope="col" width="10%">Generated Date</th>
-                                        <th scope="col" width="10%">Published Date</th>
-                                        <th scope="col" width="10%">Original/Signed</th>
-                                        <th scope="col" width="5%">View/Download</th>
-
-                                    </tr>
-                                    <tr>
-                                        <td colspan="9" class="no_record">No Record Found</td>
-                                    </tr>
-                                </td>
-                            </tr>
-                        </table>
+        <p>
+            <span id="lblMsg" style="color:Red;"></span>
+        </p>
+        <p>
+            <b>Note: </b>
+            <span style="color: #ff0000">*</span> Fields are mandatory</td>
+        </p>
+        <div class="row">
+            <div class="col-sm-2">
+                <span style="color: #ff0000">*</span> Project:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProject" onchange="ddlProject_SelectedIndexChanged(this);" id="ddlProject" class="custom-select" cType="combo"
+                    valuebindingcolumn="Id" textbindingcolumn="Title">
+                </select>
+                <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-2">
+                <span style="color: #ff0000">*</span> Process:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProcess" id="ddlProcess" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="Title"
+                    onchange="ddlProcess_SelectedIndexChanged">
+                </select>
+                <span id="rqfvddlProcess" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-2"></div>
+            </div>
+        <div class="row">
+                <div class="col-sm-2">
+                        <span style="color: #ff0000">*</span> Document Type:
                     </div>
-                </td>
-            </tr>
+                    <div class="col-sm-3">
+                        <select name="ddlDocType" id="ddlDocType" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="DocType_x0020_Title"
+                            onchange="ddlDocType_SelectedIndexChanged">
+                        </select>
+                        <span id="rqfvddlDocType" style="color:Red;display:none;">Required!</span>
+                    </div>
+            
+            <div class="col-sm-2">Wing Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlWing" id="ddlWing" class="custom-select">
+                </select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">Tower Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlTower" id="ddlTower" class="custom-select"></select>
+            </div>
+            <div class="col-sm-2">Customer Name:</div>
+            <div class="col-sm-3">
+                <input name="txtCustomerName" type="text" id="txtCustomerName" class="custom-inputText" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">Sales Order ID:</div>
+            <div class="col-sm-3">
+                <input name="txtSalesOrderID" type="text" id="txtSalesOrderID" class="custom-inputText" />
 
-        </table>
-
+                <span id="rgconte" style="color:Red;display:none;">only Number and , allow</span>
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3">
+                <input type="button" name="btnSearch" value="Search Documents" id="btnSearch" class="btn-blue" onclick="btnSearch_Click();" />
+                <input type="button" name="btnReset" value="Reset" id="btnReset" class="btn-blue" />
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+                <div class="col-sm-12">
+                    <table class="griddata tablearea" cellspacing="0" id="grvDocSelection" style="width:100%;border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="11%">Name</th>
+                                <th scope="col" width="11%">Version</th>
+                                <th scope="col" width="11%">Sales Order ID</th>
+                                <th scope="col" width="11%">Customer Name</th>
+                                <th scope="col" width="11%">Tower</th>
+                                <th scope="col" width="11%">Generated Date</th>
+                                <th scope="col" width="11%">Published Date</th>
+                                <th scope="col" width="11%">Original/Signed</th>
+                                <th scope="col" width="11%">View/Download</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_grvDocSelection">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
     </div>
 </body>
 
