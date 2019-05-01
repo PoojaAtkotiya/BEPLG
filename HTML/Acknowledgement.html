@@ -67,6 +67,7 @@
             //Start Document Generation process
             letters = GenerateLetters(letters, true);
 
+            letters = JSON.parse(letters);
             //Set Successfully Generated Letter Status.
             letters.forEach(letter => {
                 if (IsNullOrUndefined(letter.Messages) || (!IsNullOrUndefined(letter.Messages) && !letter.Messages.some(p => p.ErrorType == ErrorType.Error))) {
