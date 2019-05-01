@@ -12,7 +12,11 @@ const ListNames = {
     POLICYTYPES: "Policy Types",
     PROCESSTYPES: "Process Types",
     PROPERTYLETTERSTEMPLATE: "Property Letter Templates",
+<<<<<<< HEAD
+    ANNEXURES : "Annexures"
+=======
     TASKS : "Tasks"
+>>>>>>> 806f580b38de1f47a6c40454e0cb4f3aae67ab15
 
 }
 Object.freeze(ListNames);

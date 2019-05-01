@@ -14,10 +14,18 @@
         <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
         <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
 
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
-    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+        />
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+    
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+    
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+        <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Annexure.js"></script>
     <style type="text/css">
         #sideNavBox {
             display: none !important;
@@ -95,21 +103,12 @@
                         <tr>
                             <td width="20%"><span style="color: #ff0000">*</span> Project:</td>
                             <td width="30%">
-                                <select name="ctl00$PlaceHolderMain$ddlProject" id="ctl00_PlaceHolderMain_ddlProject"
-                                    class="custom-select">
-                                    <option selected="selected" value="0">---Select Project---</option>
-                                    <option value="1">Aurora</option>
-                                    <option value="18">Centurion</option>
-                                    <option value="19">Century Bhavan</option>
-                                    <option value="21">Century Mills</option>
-                                    <option value="23">Kamba</option>
-                                    <option value="22">Shahad</option>
-
-                                </select>
-                                <span id="ctl00_PlaceHolderMain_rqfvddlProject" style="color:Red;visibility:hidden;">Required!</span>
-                            </td>
+                                <select name="ddlProject"  id="ddlProject" class="custom-select" cType="combo"
+                                valuebindingcolumn="Id" textbindingcolumn="Title">
+                            </select>
+                            <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span> </td>
                             <td width="20%"><input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search"
-                                    onclick="" id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />
+                                    onclick="btnSearch_Click();" id="btnSearch" class="btn-blue" />
                                 <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset"
                                     class="btn-blue" />
                             </td>
@@ -126,17 +125,17 @@
             <tr>
                 <td width="100%">
                     <div>
-                        <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_grvAnnexure" style="width:98%;border-collapse:collapse;">
-
+                        <table class="griddata tablearea" cellspacing="0" id="grvAnnexure" style="width:98%;border-collapse:collapse;">
+                            <thead>
                             <tr style="width: 100%;">
                                 <th scope="col" width="15%">Name</th>
                                 <th scope="col" width="15%">Project Name</th>
-                                <th scope="col" width="15%" style="display:none;">Process Name</th>
-                                <th scope="col" width="15%" style="display:none;">Doc Type</th>
+                                
                                 <th scope="col" width="15%">Created By</th>
                                 <th scope="col" width="10%">Created On</th>
                                 <th scope="col" width="15%"></th>
                             </tr>
+                            </thead>
                             <tr>
                                 <td colspan="7" class="no_record">No Record Found</td>
                             </tr>
