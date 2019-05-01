@@ -101,7 +101,6 @@ function BindWing() {
 function BindGeneratedLetters() {
     try {
         var isAdmin = IsGroupMember(SPGroups.ADMIN);
-        isAdmin = true;
         var listItems = GetNotProcessedLetters(_spPageContextInfo.userId, isAdmin);
 
         if (!IsNullOrUndefined(listItems) && listItems.length != 0) {
@@ -479,4 +478,15 @@ function lnkCancel_Click(docRelUrl) {
         $('#lblMsg').html(Messages.TechnicalIssueOccurrred);
         console.log(ex);
     }
+}
+
+function btntemp_Click() {
+    //if (Request.QueryString["ID"] != null)
+    //{
+    //    Response.Redirect(Constants.PopupURL.MyTask, true);
+    //}
+    //else
+    // {
+    BindGeneratedLetters();
+    // }
 }

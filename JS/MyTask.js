@@ -143,7 +143,15 @@ function BindTasksGrid() {
     var data = GetListData(url, "POST");
     var tasks = data.d.results;
     if (!IsNullOrUndefined(tasks) && tasks.length > 0) {
+        $("#lblCount").html(tasks.length);
         BindPendingTasks(tasks);
+    }
+    else {
+        BindPendingTasks([]);
+    }
+    if (!IsGroupMember(SPGroups.ADMIN)) {
+        tblPendingTasks.columns(9).visible(false);
+        tblPendingTasks.columns(2).visible(false);
     }
 }
 
@@ -180,7 +188,16 @@ function BindTasksGridME() {
     var data = GetListData(url, "POST");
     var tasks = data.d.results;
     if (!IsNullOrUndefined(tasks) && tasks.length > 0) {
+        $("#lblCountME").html(tasks.length);
         BindMyPendingTasks(tasks);
+    }
+    else {
+        BindMyPendingTasks([]);
+    }
+    if (!IsGroupMember(SPGroups.ADMIN)) {
+        tblMyPendingTasks.columns(9).visible(false);
+        tblMyPendingTasks.columns(11).visible(false);
+        tblMyPendingTasks.columns(2).visible(false);
     }
 }
 function BindTasksGridCSR() {
@@ -208,6 +225,7 @@ function ddlProjectProcessCSR_SelectedIndexChanged() {
 
 function BindPendingTasks(tasks) {
     tblPendingTasks = $('#grvPendingApproval').DataTable({
+        "destroy": true,
         "data": tasks,
         "columns": [
             { "data": "Doc_x0020_Type", },
@@ -220,6 +238,7 @@ function BindPendingTasks(tasks) {
             { "data": "Approval_x0020_Completed", },
             { "data": "Due_x0020_Date", },
             {
+                "data": null,
                 "render": function (data, type, row, meta) {
                     return GetUserNamebyUserID(row.Assigned_x0020_ToId);
                 }
@@ -238,6 +257,7 @@ function BindPendingTasks(tasks) {
 
 function BindMyPendingTasks(tasks) {
     tblMyPendingTasks = $('#grvPendingApprovalME').DataTable({
+        "destroy": true,
         "data": tasks,
         "columns": [
             { "data": "Doc_x0020_Type", },
@@ -249,29 +269,147 @@ function BindMyPendingTasks(tasks) {
             { "data": "Approval_x0020_Pending", },
             { "data": "Approval_x0020_Completed", },
             {
+                "data": null,
                 "render": function (data, type, row, meta) {
-                    return "<a href='#' onclick='ShowPopUp('Show Approval Status','TaskApprovalHistory.aspx?IsDlg=1&amp;DocID=1555',1)'>" + row.Approval_x0020_Status + "</a>";
+                    return "<a href='#' onclick=\"ShowPopUp('show approval status','TaskApprovalHistory.aspx?isdlg=1&DocID=" + row.ID + "',1)\">" + row.Approval_x0020_Status + "</a>";
+
                 }
             },
             {
+                "data": null,
                 "render": function (data, type, row, meta) {
                     return GetUserNamebyUserID(row.AuthorId);
                 }
             },
             {
+                "data": null,
                 "orderable": false,
                 "className": "center",
                 "render": function (data, type, row, meta) {
-                    return "<a name='grvPendingApproval_linkRedirect' href='ApproveRejectTask.aspx?ID=" + row.ID + "'>Approve/Reject</a>"
+                    if (row.Approval_x0020_Status == TaskStatus.Approved) {
+                        if (row["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailBody || row["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailBodyInternal) {
+                            hrefTag = "OpenSPModelDialog('" + PopupURL.SendEmailBody + "&ID=" + row["ID"] + "');";
+                            return "<a onclick=\"" + hrefTag + "\">Send Email</a>";
+                        }
+                        else if (row["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailWithAttachment || row["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.EmailWithAttachmentInternal) {
+                            hrefTag = "OpenSPModelDialog('" + PopupURL.SendEmailWithAttachment + "&ID=" + row["ID"] + "');";
+                            return "<a onclick=\"" + hrefTag + "\">Send Email</a>";
+                        }
+                        else if (row["Mode_x0020_Of_x0020_Dispatch"] == ModeOfDispatch.HardCopy) {
+                            hrefTag = "OpenSPModelDialog('" + PopupURL.PublishDocument + "&ID=" + row["ID"] + "');";
+                            return "<a onclick=\"" + hrefTag + "\">Publish Document</a>";
+                        }
+                    }
+                    else if (row["Approval_x0020_Status"] == TaskStatus.Rejected) {
+                        hrefTag = "RedirectToMyTaskPage('" + dr["ID"] + "');";
+                        return "<a onclick=\"" + hrefTag + "\">Re-Generate Document</a>";
+                    }
+                    else {
+                        return "";
+                    }
                 }
             },
             {
+                "data": null,
                 "orderable": false,
                 "className": "center",
                 "render": function (data, type, row, meta) {
-                    return "<a onclick='return confirm('Are you sure you want to cancel?');' class='grvPendingApprovalME_lnkDelete'>Cancel</a>"
+                    if (row.Approval_x0020_Status == "Pending") {
+                        return "<a onclick='grvPendingApprovalME_lnkDelete_click(" + row.ID + ")' name='grvPendingApprovalME_lnkDelete'>Cancel</a>"
+                    }
+                    else {
+                        return "";
+                    }
                 }
             }
         ]
     });
+}
+
+function grvPendingApprovalME_lnkDelete_click(id) {
+    var letterDetails = GetPropertyLetterByID(Number(id));
+    if (!IsNullOrUndefined(letterDetails)) {
+
+        // if (CancelProcess(Number(id))) {
+        //     WCFServiceHelper servicehelper = new WCFServiceHelper();
+        //     SPFieldLookupValue project = new SPFieldLookupValue(letterDetails["Project_x0020_Name"].ToString());
+        //     SPFieldLookupValue docType = new SPFieldLookupValue(letterDetails["DocType_x0020_Title"].ToString());
+        //     Dictionary < string, string > userDetails = servicehelper.GetEmailID(project.LookupValue, lnkdelete.CommandArgument, docType.LookupValue);
+        //     if (helper.SendDeleteNotification(letterDetails, userDetails))
+        //         ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('" + Constants.Messages.ProcessDelete + "');", true);
+        // }
+        // BindTasksGridME();
+    }
+    else {
+        //ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('Not able to find specified letter');", true);
+    }
+}
+
+var s = 0;
+function ShowPopUp(Title, URL, typ) {
+    s = typ;
+    var options = {
+        url: URL,
+        title: Title,
+        width: 900,
+        height: 750,
+        dialogReturnValueCallback: CloseAcknowledgement
+    }
+    SP.SOD.execute('sp.ui.dialog.js', 'SP.UI.ModalDialog.showModalDialog', options);
+    return false;
+}
+
+function CloseAcknowledgement(dialogResult, returnValue) {
+    if (dialogResult == "1") {
+
+        if (s == 1)
+            document.getElementById("<%= btnSearch.ClientID%>").click();
+        else if (s == 2)
+            document.getElementById("<%= btnSearchCSR.ClientID%>").click();
+    }
+}
+
+function CloseCallback(dialogResult, returnValue) {
+    if (returnValue == "1") {
+        var activeIndex = parseInt($('#<%=hidAccordionIndex.ClientID %>').val());
+
+        if (activeIndex == 0) {
+            document.getElementById("<%= btnSearch.ClientID%>").click();
+        }
+        else if (activeIndex == 1) {
+            document.getElementById("<%= btnSearchME.ClientID%>").click();
+        }
+        else if (activeIndex == 2) {
+            document.getElementById("<%= btnSearchCSR.ClientID%>").click();
+        }
+
+    }
+}
+
+function btnSearch_click() {
+    BindTasksGrid();
+}
+
+function btnReset_click() {
+    $("#ddlProcess").val("");
+    $("#ddlProject").val("");
+    $("#ddlDocType").val("");
+    $("#txtSalesOrderID").val("");
+    $("#txtCustomerName").val("");
+    BindDocType();
+    BindTasksGrid();
+
+}
+
+function btnSearchME_Click() {
+    BindTasksGridME();
+}
+
+function btnResetME_Click() {
+    $("#ddlProcessME").val("");
+    $("#ddlProcessME").val("");
+    $("#ddlDocTypeME").val("");
+    $("#txtSalesOrderIDME").val("");
+    $("#txtCustomerNameME").val("");
+    BindMyPendingTasks([]);
 }
