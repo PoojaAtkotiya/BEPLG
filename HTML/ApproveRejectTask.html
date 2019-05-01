@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/TaskMaster.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/ApproveRejectTasks.js"></script>
     <style type="text/css">
         #sideNavBox {
             display: none !important;
@@ -25,13 +26,13 @@
             margin-right: 0px;
         }
 
-        
+
         #txtCommentsCount {
             width: 80%;
             text-align: right;
         }
     </style>
-    <script type="text/javascript" src="/_layouts/15/JsScript/PLGCustom.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
     <script type="text/javascript">
         function countChar(val) {
             var len = val.value.length;
@@ -71,7 +72,7 @@
         </div>
 
     </div>
-    <div id="ctl00_PlaceHolderMain_updpnlPage">
+    <div id="updpnlPage">
 
         <table class="tablearea" style="width: 100% !important;">
             <tr>
@@ -84,8 +85,7 @@
             <tr>
                 <td style="width: 15%;">Title:</td>
                 <td style="width: 85%;" colspan="3">
-                    <span id="lblTitle">111 | Sanjay Patel | ROC request
-                        letter to Finance</span></td>
+                    <span id="lblTitle"></span></td>
             </tr>
             <tr>
                 <td style="width: 15%;">Document:</td>
@@ -119,12 +119,12 @@
                 </td>
                 <td style="width: 15%;">Due Date:</td>
                 <td style="width: 35%;">
-                    <span id="ctl00_PlaceHolderMain_lblDueDate">10 Feb 2019</span></td>
+                    <span id="lblDueDate"></span></td>
             </tr>
             <tr>
                 <td style="width: 15%;">Assigned To:</td>
                 <td style="width: 85%;" colspan="3">
-                    <span id="ctl00_PlaceHolderMain_lblAssignedTo">Jatin Ambaliya</span></td>
+                    <span id="lblAssignedTo"></span></td>
             </tr>
             <tr>
                 <td style="width: 15%;"><span style="color: #ff0000">*</span> Comments:</td>
@@ -133,9 +133,9 @@
                         style="width:80%;">
 </textarea>
                     <div id="txtCommentsCount">1000 character(s) left</div>
-                    <span id="ctl00_PlaceHolderMain_rqfvtxtComments" style="color:Red;visibility:hidden;">Comments
+                    <span id="rqfvtxtComments" style="color:Red;visibility:hidden;">Comments
                         are mandatory</span>
-                    <span id="ctl00_PlaceHolderMain_regexpDesc" style="visibility:hidden;">Maximum
+                    <span id="regexpDesc" style="visibility:hidden;">Maximum
                         of 1000 characters allowed</span>
 
                 </td>

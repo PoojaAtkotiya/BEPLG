@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  LoadTaskDetails(taskID);
+    taskID = getUrlParameter('ID');
+    LoadTaskDetails(taskID);
 });
 
 function LoadTaskDetails(TaskID) {

@@ -1,17 +1,31 @@
 <html dir="ltr" lang="en-US">
 
 <head>
-    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css"
-    />
-    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/CSS/PLGStyle.css" />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/css/jquery-ui.css" />
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery.min.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-1.js"></script>
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/sessvars.js"></script> -->
     <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLG.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/AppConstant.js"></script>
+
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/CustomerTest.js"></script>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/RejectedLetters.js"></script>
 
     <style type="text/css">
         #sideNavBox {
@@ -19,10 +33,20 @@
         }
 
         #contentBox {
-            margin-left: 0px;
+            margin-left: 10px;
             margin-right: 0px;
         }
+
+        #SearchBox {
+            display: none !important;
+        }
+
+        .hiddencol {
+            display: none;
+        }
     </style>
+    <script type="text/javascript" src="https://synoverge.sharepoint.com/sites/PLG_Dev/SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+
     <script type="text/javascript">
         function ShowPopUp(Title, URL) {
             var options = {
@@ -52,139 +76,95 @@
         </div>
 
     </div>
-    <div id="ctl00_PlaceHolderMain_updpnlPage">
+    <div id="updpnlGenerateDoc">
 
-        <table class="tablearea">
-            <tr>
-                <td>
-                    <span id="ctl00_PlaceHolderMain_lblMsg" style="color:Red;"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table class="tablearea">
-                        <tr>
-                            <td colspan="6">
-                                <b>Note:</b>
-                                <span style="color: #ff0000">*</span> Fields are mandatory</td>
+        <p>
+            <b>Note: </b>
+            <span style="color: #ff0000">*</span> Fields are mandatory</td>
+        </p>
+        <div class="row">
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Project:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProject" onchange="ddlProject_SelectedIndexChanged(this);" id="ddlProject" class="custom-select" cType="combo"
+                        valuebindingcolumn="Id" textbindingcolumn="Title"></select>
+                <span id="rqfvddlProject" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Process:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlProcess" id="ddlProcess" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="Title"
+                        onchange="ddlProcess_SelectedIndexChanged"></select>
+                <span id="rqfvddlProcess" style="color:Red;display:none;">Required!</span>
+            </div>
+            <div class="col-sm-1">
+                <span style="color: #ff0000">*</span> Document Type:
+            </div>
+            <div class="col-sm-3">
+                <select name="ddlDocType" id="ddlDocType" class="custom-select" cType="combo" valuebindingcolumn="Id" textbindingcolumn="DocType_x0020_Title"
+                        onchange="ddlDocType_SelectedIndexChanged"></select>
+                <span id="rqfvddlDocType" style="color:Red;display:none;">Required!</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">Tower Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlTower" id="ddlTower" class="custom-select"></select>
+            </div>
+            <div class="col-sm-1">Wing Name:</div>
+            <div class="col-sm-3">
+                <select name="ddlWing" id="ddlWing" class="custom-select"></select>
+            </div>
+            <div class="col-sm-1">Sales Order ID:</div>
+            <div class="col-sm-3">
+                <input name="txtSalesOrderID" type="text" id="txtSalesOrderID" class="custom-inputText" />
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">Customer Name:</div>
+            <div class="col-sm-3">
+                <input name="txtCustomerName" type="text" id="txtCustomerName" class="custom-inputText" />
+            </div>
+            <div class="col-sm-1">
+                
+            </div>
+            <div class="col-sm-3">
+                
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-3">
+                <input type="button" name="btnSearch" value="Search" id="btnSearch" class="btn-blue" onclick="btnSearch_Click();" />
+                <input type="button" name="btnReset" value="Reset" id="btnReset" class="btn-blue" />
+            </div>
+        </div>
 
-                        </tr>
-                        <tr>
-                            <td width="10%">
-                                <span style="color: #ff0000">*</span> Project:</td>
-                            <td width="23%">
-                                <select name="ctl00$PlaceHolderMain$ddlProject" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlProject\',\'\')', 0)"
-                                    id="ctl00_PlaceHolderMain_ddlProject" class="custom-select">
-                                    <option selected="selected" value="0">---Select Project---</option>
-
-                                </select>
-                                <span id="ctl00_PlaceHolderMain_rqfvddlProject" style="color:Red;visibility:hidden;">Required!</span>
-                            </td>
-                            <td width="10%">Process:</td>
-                            <td width="23%">
-                                <select name="ctl00$PlaceHolderMain$ddlprocess" onchange="javascript:setTimeout('__doPostBack(\'ctl00$PlaceHolderMain$ddlprocess\',\'\')', 0)"
-                                    id="ctl00_PlaceHolderMain_ddlprocess" class="custom-select">
-                                    <option selected="selected" value="0">---Select Process---</option>
-                                    <option value="3">Banking &amp; Collections Process</option>
-                                    <option value="6">Cancellation Process</option>
-                                    <option value="12">Deed of rectification</option>
-                                    <option value="16">Emploeyment</option>
-                                    <option value="13">Flat Modification Process</option>
-                                    <option value="17">Legal</option>
-                                    <option value="2">LOI and Registration Process</option>
-                                    <option value="15">Miscellaneous</option>
-                                    <option value="8">Other documents</option>
-                                    <option value="4">Possession Process</option>
-                                    <option value="5">Post-possession Process</option>
-                                    <option value="18">Quality</option>
-                                    <option value="14">Refund Coverings</option>
-                                    <option value="9">Refund Memos </option>
-                                    <option value="7">Resale Process</option>
-                                    <option value="1">Welcome Process</option>
-
-                                </select>
-                            </td>
-                            <td width="10%">Document Type:</td>
-                            <td width="24%">
-                                <select name="ctl00$PlaceHolderMain$ddlDocType" id="ctl00_PlaceHolderMain_ddlDocType" class="custom-select">
-                                    <option selected="selected" value="0">---Select Document Type---</option>
-
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Tower Name:</td>
-                            <td>
-                                <select name="ctl00$PlaceHolderMain$ddlTower" id="ctl00_PlaceHolderMain_ddlTower" class="custom-select">
-                                    <option selected="selected" value="0">---Select Tower---</option>
-
-                                </select>
-                            </td>
-
-                            <td>Wing:</td>
-                            <td>
-                                <select name="ctl00$PlaceHolderMain$ddlWing" id="ctl00_PlaceHolderMain_ddlWing" class="custom-select">
-                                    <option selected="selected" value="0">---Select Wing---</option>
-
-                                </select>
-
-                            </td>
-                            <td>Sales Order ID:</td>
-                            <td>
-                                <input name="ctl00$PlaceHolderMain$txtSalesOrderID" type="text" id="ctl00_PlaceHolderMain_txtSalesOrderID" style="width:200px;"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Customer Name:</td>
-                            <td>
-                                <input name="ctl00$PlaceHolderMain$txtCustomerName" type="text" id="ctl00_PlaceHolderMain_txtCustomerName" style="width:200px;"
-                                />
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$PlaceHolderMain$btnSearch&quot;, &quot;&quot;, true, &quot;filter&quot;, &quot;&quot;, false, false))"
-                                    id="ctl00_PlaceHolderMain_btnSearch" class="btn-blue" />
-                                <input type="submit" name="ctl00$PlaceHolderMain$btnReset" value="Reset" id="ctl00_PlaceHolderMain_btnReset" class="btn-blue"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <span id="ctl00_PlaceHolderMain_lbl_ErrorMsg" style="color:Red;"></span>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <table class="griddata" cellspacing="0" id="ctl00_PlaceHolderMain_rejectedLettersGrid" style="width:100%;border-collapse:collapse;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="griddata tablearea" cellspacing="0" id="grvRejectedDoc" style="width:100%;border-collapse:collapse;">
+                        <thead>
                             <tr>
-                                <td>
-
-                                    <tr>
-                                        <th scope="col">Document Name</th>
-                                        <th scope="col">Project Name</th>
-                                        <th scope="col">Process Name</th>
-                                        <th scope="col">Sales Order ID</th>
-                                        <th scope="col">Customer Name</th>
-                                        <th scope="col">Rejected By</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="no_record">No Record Found</td>
-                                    </tr>
-                                </td>
+                                <th scope="col" width="35">Document Name</th>
+                                <th scope="col" width="10%">Project Name</th>
+                                <th scope="col" width="15%">Process Name</th>
+                                <th scope="col" width="10%">Sales Order ID</th>
+                                <th scope="col" width="10%">Customer Name</th>
+                                <th scope="col" width="10%">Rejected By</th>
+                                
                             </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
 
-        </table>
+            <div class="row">
+                <input type="button" name="btntemp" value="" id="btntemp" style="display: none;" />
+            </div>
 
-    </div>
+        </div>
+
 </body>
 
 </html>
