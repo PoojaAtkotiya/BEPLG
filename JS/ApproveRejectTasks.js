@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    taskID = getUrlParameter('ID');
-    LoadTaskDetails(taskID);
+  taskID = getUrlParameter('ID');
+  LoadTaskDetails(taskID);
+  var isAdmin = IsGroupMember(SPGroups.ADMIN);
 });
 
 function LoadTaskDetails(TaskID) {
@@ -46,8 +47,39 @@ function DisableApproveRejecteButtons() {
   $("#btnReject").visible = false;
 }
 
-function btnApprove_click(){
+function btnApprove_click() {
   $("#btnReject").enabled = false;
   $("#btnApprove").enabled = false;
 
+
+  var taskapprovaldetails = {};
+  taskapprovaldetails.TaskID = taskID;
+  taskapprovaldetails.ApprovalStatus = TaskStatus.Approved;
+  taskapprovaldetails.Comments = document.getElementById('txtComments').value;
+  taskapprovaldetails.UserEmail = _spPageContextInfo.userEmail;
+  $("#lblMsg").text = UpdateTaskItem(taskapprovaldetails, isAdmin);
+
+}
+
+function UpdateTaskItem(taskapprovaldetails, isAdmin) {
+  var strMessage = "";
+      var url = "https://prod-21.centralindia.logic.azure.com:443/workflows/cdab15fc64f5494bb225d5c536d72267/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=8XBKNEsQXk4j_AVxt1C8jZsnGNb-wawyywRxce_OxpA"
+      AjaxCall(
+          {
+              url: url,
+              httpmethod: 'POST',
+              async: false,
+              postData: JSON.stringify(taskapprovaldetails),
+              headers:
+                  {
+                      // "Accept": "application/json;odata=verbose",
+                      "Content-Type": "application/json;",
+                      // "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                  },
+              sucesscallbackfunction: function (data) {
+                strMessage = data;
+              }
+          });
+  
+  return strMessage;
 }
