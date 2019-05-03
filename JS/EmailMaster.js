@@ -14,3 +14,19 @@ function SendEmail(mail) {
     });
 
 }
+
+function GetEmailSubject(letter) {
+    debugger
+    var subject = '';
+    try {
+        if (!IsNullOrUndefined(letter)) {
+            var doctype = letter["DocType_x0020_Title"].DocType_x0020_Title;
+            subject = String.format("{0} | {1} | {2}", letter["Sales_x0020_Order_x0020_ID"], letter["Customer_x0020_Name"], doctype);
+        }
+    }
+    catch (ex) {
+        //  ApplicationLog.LogError(ex);
+        return subject;
+    }
+    return subject;
+}

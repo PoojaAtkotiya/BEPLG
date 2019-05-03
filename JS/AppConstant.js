@@ -21,7 +21,25 @@ const ListNames = {
 Object.freeze(ListNames);
 
 const SPGroups = {
-    ADMIN: 'Administrator'
+    ADMIN: 'Administrator',
+    Director: "Director",
+    SegmentHead: "Segment Head",
+    AccountsSPOC2: "Accounts SPOC 2",
+    CRMHead: "CRM Head",
+    CRM: "CRM",
+    CSE: "CSE",
+    QAT: "QAT",
+    Accounts: "Accounts",
+    Legal: "Legal",
+    AuthorisedSignatory: "Authorized Signatory",
+    Finance: "Finance",
+    AccountsMIS: "Accounts MIS",
+    AccountsSPOC3: "Accounts SPOC 3",
+    SVPSales: "SVP Sales",
+    DirectorSales: "Director Sales",
+    GW: "GW",
+    // Administrator: "Administrator",
+    ScanningTeam: "ScanningTeam",
 }
 Object.freeze(SPGroups);
 

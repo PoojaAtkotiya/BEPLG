@@ -156,48 +156,43 @@ function BindTasksGrid() {
 }
 
 function BindTasksGridME() {
-    debugger
     var conditions = [];
     if (!IsGroupMember(SPGroups.ADMIN)) {
-        conditions.push("('AuthorId' eq " + _spPageContextInfo.userId + ")");
+        conditions.push("(AuthorId eq " + _spPageContextInfo.userId + ")");
     }
     if (!IsStrNullOrEmpty($("#ddlProjectME").val())) {
-        conditions.push("('Project_x0020_Name/Title' eq '" + $("select#ddlProjectME>option:selected").text() + "')");
+        conditions.push("(Project_x0020_Name/Title eq \"" + $("select#ddlProjectME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#ddlProcessME").val())) {
-        conditions.push("('Process_x0020_Name' eq '" + $("select#ddlProcessME>option:selected").text() + "')");
+        conditions.push("(Process_x0020_Name/Title eq \"" + $("select#ddlProcessME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#ddlDocTypeME").val())) {
-        conditions.push("('DocType_x0020_Title' eq '" + $("select#ddlDocTypeME>option:selected").text() + "')");
+        conditions.push("(DocType_x0020_Title/DocType_x0020_Title eq \"" + $("select#ddlDocTypeME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#txtCustomerNameME").val())) {
-        conditions.push("('Customer_x0020_Name' eq '" + $("#txtCustomerNameME").val() + "')");
+        conditions.push("(Customer_x0020_Name eq \"" + $("#txtCustomerNameME").val() + "\")");
     }
     if (!IsStrNullOrEmpty($("#txtSalesOrderIDME").val())) {
-        conditions.push("('Sales_x0020_Order_x0020_ID' eq '" + $("#txtSalesOrderIDME").val() + "')");
+        conditions.push("(Sales_x0020_Order_x0020_ID eq \"" + $("#txtSalesOrderIDME").val() + "\")");
     }
 
     // var merged = MergeCAMLConditions(conditions, MergeType.AND);
     var merged = "";
     if (!IsNullOrUndefined(conditions) && conditions.length > 0) {
-        while (conditions.length > 2) {
-            var complexConditions = [];
-            for (var i = 0; i < conditions.length; i += 2) {
-                if (conditions.length == i + 1) // Only one condition left
-                    complexConditions.push(conditions[i]);
-                else // Two condotions - merge
-                    complexConditions.push(conditions[i] + "and" + conditions[i + 1]);
-            }
-            conditions = complexConditions;
-        }
-        merged = conditions[0];
+        conditions.forEach(condition => {
+            merged = merged + condition + " and";
+        });
+        if (merged.length - 3 == merged.lastIndexOf('and'))
+            merged = merged.substr(merged, merged.length - 3)
     }
-
+    //------------------- PENDING --------------------------------------------------
     if (!IsStrNullOrEmpty(merged)) {
         merged = "&$filter=(" + merged + ")";
     }
 
     var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/items?$select=*,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title,File&$expand=Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title,File&$orderby=Project_x0020_Name/Title asc" + merged;
+
+    //--------------------------------------------------------------------------------
     var data = GetListData(url);
     var tasks = data.d.results;
     if (!IsNullOrUndefined(tasks) && tasks.length > 0) {

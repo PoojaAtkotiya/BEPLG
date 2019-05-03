@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link id="CssRegistration1" rel="stylesheet" type="text/css" href="../SiteAssets/PLG/CSS/PLGStyle.css" />
+    <link id="CssRegistration16" rel="stylesheet" type="text/css" href="../SiteAssets/PLG/css/jquery-ui.css" />
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/1.7.2.jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/jquery-1.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/jquery-ui.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Common/PLGCustom.js"></script>
+
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/Constants.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/AppConstant.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/PLGCommon.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/MasterHelper.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/EmailMaster.js"></script>
+    <script type="text/javascript" src="../SiteAssets/PLG/JS/SendEmailBody.js"></script>
+
+</head>
+
+<body>
+    <div id="updateProgress" style="display:none;">
+        <div style="position: fixed; text-align: center; height: 100%; width: 100%; top: 0; right: 0; left: 0; z-index: 9999999; background-color: #000000; opacity: 0.7;">
+            <img id="imgUpdateProgress" src="../SiteAssets/Assets/images/loader.gif" alt="Loading ..." title="Loading ..." style="padding: 10px; position: fixed; top: 45%; left: 50%; width: 40px; height: 40px"
+            />
+        </div>
+    </div>
+    <div id="updpnlPage">
+        <div class="row">
+            <span id="lblError" style="color:Red;font-weight:bold;"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-1">From:</div>
+            <div class="col-md-11">
+                <span id="lblFrom"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">To:</div>
+            <div class="col-md-11">
+                <span id="lblto"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">CC:</div>
+            <div class="col-md-11">
+                <span id="lblcc"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">BCC:</div>
+            <div class="col-md-11">
+                <span id="lblbcc"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">Subject:</div>
+            <div class="col-md-11">
+                <span id="lblSubject"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">Body:</div>
+            <div class="col-md-11">
+                <div id="divemailbody" width="500px" height="200" style="border: solid 1px #ababab; border-radius: 4px; overflow: scroll;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <input type="button" name="btnSendEmail" value="OK, Send Email" id="btnSendEmail" disabled="disabled" class="aspNetDisabled btn-blue"
+                />
+                <input type="button" class="btn-blue" value="CANCEL" onclick="ClosePopup(0)" />
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

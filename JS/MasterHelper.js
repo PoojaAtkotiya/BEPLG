@@ -289,3 +289,16 @@ function SendDeleteNotification(propertyLetter, userDetails) {
         return false;
     }
 }
+
+function GetProjectTemplateByID(iD) {
+    var item;
+    try {
+        var url = url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROJECTTEMPLATES + "')/Items(" + iD + ")?$select=*,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title&$expand=Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title"
+        var data = GetListData(url);
+        item = data.d.results;
+    }
+    catch (ex) {
+        console.log(ex);
+    }
+    return item;
+}
