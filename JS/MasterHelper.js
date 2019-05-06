@@ -225,15 +225,80 @@ function CancelProcess(docRelUrl) {
     return returnvalue;
 }
 
-// function GetPropertyLetterByID(id) {
-//     var item;
-//     try {
-//         var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/GetByTitle('" + ListNames.PROPERTYLETTERS + "')/items(" + id + ")";
-//         var data = GetListData(url);
-//         item = data.d;
-//     }
-//     catch (ex) {
-//         // ApplicationLog.LogError(ex);
-//     }
-//     return item;
-// }
+function SendDeleteNotification(propertyLetter, userDetails) {
+    try {
+        var salesOrderId = propertyLetter["Sales_x0020_Order_x0020_ID"];
+        var cseEmail = userDetails["CSE"];
+        var cseName = userDetails["CSE Name"];
+        var crmEmail = userDetails["CRM"];
+        var crmHEmail = userDetails["CRM Head"];
+        var customer = propertyLetter["Customer_x0020_Name"];
+        //  var hostAddress = '';
+        var emailBody = "Dear " + cseName + ",";
+        emailBody += "<br /><br />Based on your request, the following document has been deleted after the same was approved and ready to be sent to the customer. Please ensure this is communicated to the respective Approvers so that they are on the same page.";
+
+        if (!(salesOrderId))
+            emailBody += "<br />Sales Order ID: " + salesOrderId;
+
+        if (!IsStrNullOrEmpty(customer))
+            emailBody += "<br />Customer Name: " + customer;
+
+        var project = propertyLetter["Project_x0020_Name"].Title;
+        if (!IsStrNullOrEmpty(project))
+            emailBody += "<br />Project Name: " + project;
+
+        var processName = propertyLetter["Process_x0020_Name"].Title;
+        if (!IsStrNullOrEmpty(processName))
+            emailBody += "<br />Process Type: " + processName;
+
+        var doctype = propertyLetter["DocType_x0020_Title"].DocType_x0020_Title;
+        if (!IsStrNullOrEmpty(doctype))
+            emailBody += "<br />Document Type: " + doctype;
+
+        emailBody += "<br /><br /><br /><br />Warm Regards,<br />" + _spPageContextInfo.userDisplayName;
+
+        // send mail
+        var mail = {};
+        mail["From"] = _spPageContextInfo.userEmail;
+        if (!IsStrNullOrEmpty(cseEmail)) {
+            mail["To"] = cseEmail;
+        }
+        if (!IsStrNullOrEmpty(crmEmail)) {
+            mail["CC"] = crmEmail;
+        }
+        if (!IsStrNullOrEmpty(crmHEmail)) {
+            if (!IsStrNullOrEmpty(mail["CC"])) {
+                mail["CC"] = mail["CC"] + ";" + crmHEmail;
+            }
+            else {
+                mail["CC"] = crmHEmail;
+            }
+        }
+        mail["BCC"] = "";
+        if (!IsNullOrUndefined(mail["To"]) && !IsStrNullOrEmpty(mail["To"])) {
+            mail["Subject"] = "Letter Deleted";
+            mail["Body"] = emailBody;
+            mail["IsBodyHtml"] = true;
+            mail["Priority"] = MailPriority.High;
+
+            SendEmail(mail);
+        }
+        return true;
+    }
+    catch (ex) {
+        return false;
+    }
+}
+
+function GetProjectTemplateByID(iD) {
+    var item;
+    try {
+        var url = url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROJECTTEMPLATES + "')/Items(" + iD + ")?$select=*,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title&$expand=Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title"
+        var data = GetListData(url);
+        item = data.d.results;
+    }
+    catch (ex) {
+        console.log(ex);
+    }
+    return item;
+}

@@ -38,3 +38,10 @@ Object.freeze(ModeOfDispatch);
 
 const MergeType = { OR: "Or", AND: "And" }
 Object.freeze(MergeType);
+
+const MailPriority = {
+    Normal: 0,
+    Low: 1,
+    High: 2
+}
+Object.freeze(MailPriority);

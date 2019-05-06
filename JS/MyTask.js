@@ -158,34 +158,42 @@ function BindTasksGrid() {
 function BindTasksGridME() {
     var conditions = [];
     if (!IsGroupMember(SPGroups.ADMIN)) {
-        conditions.push("<Eq><FieldRef Name='AuthorId' /><Value Type='Text'>" + _spPageContextInfo.userId + "</Value></Eq>");
+        conditions.push("(AuthorId eq " + _spPageContextInfo.userId + ")");
     }
     if (!IsStrNullOrEmpty($("#ddlProjectME").val())) {
-        conditions.push("<Eq><FieldRef Name='Project_x0020_Name' /><Value Type='Text'>" + $("select#ddlProjectME>option:selected").text() + "</Value></Eq>");
+        conditions.push("(Project_x0020_Name/Title eq \"" + $("select#ddlProjectME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#ddlProcessME").val())) {
-        conditions.push("<Eq><FieldRef Name='Process_x0020_Name' /><Value Type='Text'>" + $("select#ddlProcessME>option:selected").text() + "</Value></Eq>");
+        conditions.push("(Process_x0020_Name/Title eq \"" + $("select#ddlProcessME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#ddlDocTypeME").val())) {
-        conditions.push("<Eq><FieldRef Name='Doc_x0020_Type' /><Value Type='Text'>" + $("select#ddlDocTypeME>option:selected").text() + "</Value></Eq>");
+        conditions.push("(DocType_x0020_Title/DocType_x0020_Title eq \"" + $("select#ddlDocTypeME>option:selected").text() + "\")");
     }
     if (!IsStrNullOrEmpty($("#txtCustomerNameME").val())) {
-        conditions.push("<Contains><FieldRef Name='Customer_x0020_Name' /><Value Type='Text'>" + $("#txtCustomerNameME").val() + "</Value></Contains>");
+        conditions.push("(Customer_x0020_Name eq \"" + $("#txtCustomerNameME").val() + "\")");
     }
     if (!IsStrNullOrEmpty($("#txtSalesOrderIDME").val())) {
-        conditions.push("<Eq><FieldRef Name='Sales_x0020_Order_x0020_ID' /><Value Type='Text'>00" + $("#txtSalesOrderIDME").val() + "</Value></Eq>");
+        conditions.push("(Sales_x0020_Order_x0020_ID eq \"" + $("#txtSalesOrderIDME").val() + "\")");
     }
 
-    var merged = MergeCAMLConditions(conditions, MergeType.AND);
-    var whereClause = "<Where>" + merged + "</Where>" +
-        "<OrderBy>" +
-        "<FieldRef Name='Project_x0020_Name' />" +
-        "</OrderBy>";
+    // var merged = MergeCAMLConditions(conditions, MergeType.AND);
+    var merged = "";
+    if (!IsNullOrUndefined(conditions) && conditions.length > 0) {
+        conditions.forEach(condition => {
+            merged = merged + condition + " and";
+        });
+        if (merged.length - 3 == merged.lastIndexOf('and'))
+            merged = merged.substr(merged, merged.length - 3)
+    }
+    //------------------- PENDING --------------------------------------------------
+    if (!IsStrNullOrEmpty(merged)) {
+        merged = "&$filter=(" + merged + ")";
+    }
 
-    var viewXml = "<View>" + "<Query>" + whereClause + "</Query>" + "</View>";
+    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.PROPERTYLETTERS + "')/items?$select=*,Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title,File&$expand=Project_x0020_Name/Title,Process_x0020_Name/Title,DocType_x0020_Title/DocType_x0020_Title,File&$orderby=Project_x0020_Name/Title asc" + merged;
 
-    var url = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + ListNames.TASKS + "')/GetItems(query=@v1)?" + "@v1={\"ViewXml\":\"" + viewXml + "\"}";
-    var data = GetListData(url, "POST");
+    //--------------------------------------------------------------------------------
+    var data = GetListData(url);
     var tasks = data.d.results;
     if (!IsNullOrUndefined(tasks) && tasks.length > 0) {
         $("#lblCountME").html(tasks.length);
@@ -260,9 +268,36 @@ function BindMyPendingTasks(tasks) {
         "destroy": true,
         "data": tasks,
         "columns": [
-            { "data": "Doc_x0020_Type", },
-            { "data": "Project_x0020_Name" },
-            { "data": "Process_x0020_Name" },
+            {
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (!IsNullOrUndefined(row.DocType_x0020_Title) && !IsNullOrUndefined(row.DocType_x0020_Title.DocType_x0020_Title)) {
+                        return row.DocType_x0020_Title.DocType_x0020_Title;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (!IsNullOrUndefined(row.Project_x0020_Name) && !IsNullOrUndefined(row.Project_x0020_Name.Title)) {
+                        return row.Project_x0020_Name.Title;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (!IsNullOrUndefined(row.Process_x0020_Name) && !IsNullOrUndefined(row.Process_x0020_Name.Title)) {
+                        return row.Process_x0020_Name.Title;
+                    } else {
+                        return "";
+                    }
+                }
+            },
             { "data": "Sales_x0020_Order_x0020_ID" },
             { "data": "Customer_x0020_Name" },
             { "data": "Total_x0020_Approvers", },
@@ -329,19 +364,17 @@ function BindMyPendingTasks(tasks) {
 function grvPendingApprovalME_lnkDelete_click(id) {
     var letterDetails = GetPropertyLetterByID(Number(id));
     if (!IsNullOrUndefined(letterDetails)) {
-
-        // if (CancelProcess(Number(id))) {
-        //     WCFServiceHelper servicehelper = new WCFServiceHelper();
-        //     SPFieldLookupValue project = new SPFieldLookupValue(letterDetails["Project_x0020_Name"].ToString());
-        //     SPFieldLookupValue docType = new SPFieldLookupValue(letterDetails["DocType_x0020_Title"].ToString());
-        //     Dictionary < string, string > userDetails = servicehelper.GetEmailID(project.LookupValue, lnkdelete.CommandArgument, docType.LookupValue);
-        //     if (helper.SendDeleteNotification(letterDetails, userDetails))
-        //         ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('" + Constants.Messages.ProcessDelete + "');", true);
-        // }
-        // BindTasksGridME();
+        if (CancelProcess(letterDetails.File.ServerRelativeUrl)) {
+            var project = letterDetails["Project_x0020_Name"].Title;
+            var docType = letterDetails["DocType_x0020_Title"].DocType_x0020_Title;
+            var userDetails = GetEmailID(project, id, docType);
+            if (SendDeleteNotification(letterDetails, userDetails))
+                ShowAlert(Messages.ProcessDelete);
+        }
+        BindTasksGridME();
     }
     else {
-        //ScriptManager.RegisterStartupScript(updpnlPage, updpnlPage.GetType(), "alert", "ShowAlert('Not able to find specified letter');", true);
+        ShowAlert('Not able to find specified letter');
     }
 }
 

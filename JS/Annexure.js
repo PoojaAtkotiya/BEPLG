@@ -33,7 +33,7 @@ function BindGrid(annexures) {
         "data": annexures,
         "columns": [
             
-            { "data": "Name" },
+            { "data": "LinkFilename" },
             { "data": "Project Name" },
             { "data": "Created By" },
             { "data": "Created On" }
